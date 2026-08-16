@@ -180,4 +180,14 @@ def run_load_sweep(
 
 
 def run_minimal_merge_experiment() -> Path:
+    """Default validation run for the uncontrolled merge model.
+
+    This low-load sweep is intended to confirm the natural transition from
+    free-flow to deceleration and queueing as vehicle demand increases.
+    """
+    return run_load_sweep([20, 40, 60], [10, 20, 30], end_time=1800.0)
+
+
+def run_high_load_experiment() -> Path:
+    """Exploratory high-load sweep retained for comparison studies."""
     return run_load_sweep([600, 800, 1000, 1200, 1400], [200, 400, 600, 800, 1000])
