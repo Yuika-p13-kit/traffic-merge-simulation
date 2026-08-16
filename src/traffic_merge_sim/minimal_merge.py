@@ -97,7 +97,27 @@ def _summarize_tripinfo(tripinfo_path: Path, expected_generated: int) -> dict[st
     }
 
 
-def run_single_case(main_veh_h: int, side_veh_h: int, end_time: float = 1200.0) -> dict[str, float | int | str]:
+def run_single_case(
+    main_veh_h: int | None = None,
+    side_veh_h: int | None = None,
+    end_time: float | None = None,
+    *,
+    q_main: int | None = None,
+    q_side: int | None = None,
+    duration: float | None = None,
+    seed: int | None = None,
+) -> dict[str, float | int | str]:
+    if q_main is not None:
+        main_veh_h = q_main
+    if q_side is not None:
+        side_veh_h = q_side
+    if duration is not None:
+        end_time = duration
+    if main_veh_h is None or side_veh_h is None:
+        raise ValueError("main_veh_h/q_main and side_veh_h/q_side must be provided.")
+    if end_time is None:
+        end_time = 1200.0
+
     root = Path(__file__).resolve().parents[2]
     output_dir = root / "sumo" / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -129,12 +149,16 @@ def run_single_case(main_veh_h: int, side_veh_h: int, end_time: float = 1200.0) 
         "--end",
         str(end_time),
     ]
+    if seed is not None:
+        cmd.extend(["--seed", str(seed)])
     subprocess.run(cmd, check=True)
 
     expected_generated = _estimate_generated_vehicles(main_veh_h, side_veh_h, end_time=end_time)
     metrics = _summarize_tripinfo(tripinfo_path, expected_generated)
     metrics["main_veh_h"] = main_veh_h
     metrics["side_veh_h"] = side_veh_h
+    metrics["seed"] = seed
+    metrics["duration_s"] = float(end_time)
     return metrics
 
 
@@ -143,6 +167,8 @@ def run_load_sweep(
     side_flow_rates: Iterable[int],
     end_time: float = 1200.0,
     warmup_seconds: float = 0.0,
+    *,
+    seed: int | None = None,
 ) -> Path:
     root = Path(__file__).resolve().parents[2]
     output_dir = root / "experiments"
@@ -154,7 +180,7 @@ def run_load_sweep(
         for side_veh_h in side_flow_rates:
             if warmup_seconds > 0:
                 pass
-            metrics = run_single_case(main_veh_h, side_veh_h, end_time=end_time)
+            metrics = run_single_case(main_veh_h, side_veh_h, end_time=end_time, seed=seed)
             rows.append(metrics)
 
     fieldnames = [
@@ -166,6 +192,8 @@ def run_load_sweep(
         "avg_travel_time_s",
         "total_travel_time_s",
         "state",
+        "seed",
+        "duration_s",
     ]
 
     with csv_path.open("w", newline="") as csv_file:
@@ -179,15 +207,31 @@ def run_load_sweep(
     return csv_path
 
 
-def run_minimal_merge_experiment() -> Path:
+def run_minimal_merge_experiment(
+    *,
+    q_main: int | None = None,
+    q_side: int | None = None,
+    seed: int | None = None,
+    duration: float = 1800.0,
+) -> Path:
     """Default validation run for the uncontrolled merge model.
 
     This low-load sweep is intended to confirm the natural transition from
     free-flow to deceleration and queueing as vehicle demand increases.
     """
-    return run_load_sweep([20, 40, 60], [10, 20, 30], end_time=1800.0)
+    main_flow_rates = [20, 40, 60] if q_main is None else [q_main]
+    side_flow_rates = [10, 20, 30] if q_side is None else [q_side]
+    return run_load_sweep(main_flow_rates, side_flow_rates, end_time=duration, seed=seed)
 
 
-def run_high_load_experiment() -> Path:
+def run_high_load_experiment(
+    *,
+    q_main: int | None = None,
+    q_side: int | None = None,
+    seed: int | None = None,
+    duration: float = 1800.0,
+) -> Path:
     """Exploratory high-load sweep retained for comparison studies."""
-    return run_load_sweep([600, 800, 1000, 1200, 1400], [200, 400, 600, 800, 1000])
+    main_flow_rates = [600, 800, 1000, 1200, 1400] if q_main is None else [q_main]
+    side_flow_rates = [200, 400, 600, 800, 1000] if q_side is None else [q_side]
+    return run_load_sweep(main_flow_rates, side_flow_rates, end_time=duration, seed=seed)
