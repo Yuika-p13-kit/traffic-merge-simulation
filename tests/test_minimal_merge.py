@@ -34,12 +34,21 @@ def test_load_sweep_creates_summary_csv() -> None:
 
 
 def test_run_single_case_accepts_explicit_experiment_parameters() -> None:
-    metrics = run_single_case(main_veh_h=600, side_veh_h=200, end_time=300.0, seed=7)
+    metrics = run_single_case(
+        main_veh_h=600,
+        side_veh_h=200,
+        end_time=300.0,
+        clearance_time=120.0,
+        seed=7,
+    )
 
     assert metrics["main_veh_h"] == 600
     assert metrics["side_veh_h"] == 200
     assert metrics["seed"] == 7
     assert metrics["duration_s"] == 300.0
+    assert metrics["clearance_time_s"] == 120.0
+    assert metrics["simulation_end_s"] == 420.0
+    assert metrics["unfinished_vehicles"] == 0
 
 
 def test_cli_allows_overriding_q_main_q_side_seed_and_duration() -> None:
