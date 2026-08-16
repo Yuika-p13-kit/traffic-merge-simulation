@@ -1,3 +1,5 @@
+"""Convenience entrypoint for manually checking the current default uncontrolled scenario."""
+
 from __future__ import annotations
 
 import argparse
@@ -13,7 +15,12 @@ from traffic_merge_sim.minimal_merge import run_minimal_merge_experiment
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the uncontrolled merge simulation experiment.")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Run the current default uncontrolled merge scenario for quick validation. "
+            "For publication-oriented baseline reproduction, use experiments/step01_baseline/run.py."
+        )
+    )
     parser.add_argument("--q-main", type=int, default=None, help="Mainline demand in veh/h.")
     parser.add_argument("--q-side", type=int, default=None, help="On-ramp demand in veh/h.")
     parser.add_argument("--seed", type=int, default=None, help="Random seed passed to SUMO.")

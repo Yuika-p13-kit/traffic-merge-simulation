@@ -1,0 +1,26 @@
+{
+  "experiment_id": "uncontrolled_baseline_sweep",
+  "script": "experiments/baseline_sweep.py",
+  "csv": "experiments/minimal_merge_load_sweep.csv",
+  "seed": 42,
+  "duration_s": 1800.0,
+  "main_rates": [
+    200,
+    400,
+    600,
+    800,
+    1000,
+    1200,
+    1400,
+    1600
+  ],
+  "side_rates": [
+    50,
+    100,
+    200,
+    400,
+    600,
+    800,
+    1000
+  ]
+}

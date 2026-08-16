@@ -216,4 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# SUMO generated outputs
+sumo/output/*
+!sumo/output/archive/
+!sumo/output/archive/**
+
+# others
 .DS_Store

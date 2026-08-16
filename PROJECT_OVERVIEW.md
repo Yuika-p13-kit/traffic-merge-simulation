@@ -184,7 +184,8 @@
 ### GitHub
 
 - 実験コード・条件・結果を公開
-- 目標: `uv run python experiments/sweep.py` 等で再実験可能
+- 目標: `uv run python experiments/step01_baseline/run.py` で無制御ベースラインを再実験可能
+- `main.py` は日常的な動作確認用の convenience エントリポイントとして扱う
 
 ### Qiita
 

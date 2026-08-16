@@ -56,10 +56,26 @@ sumo-gui -c sumo/config/minimal_merge.sumocfg
 uv run python main.py
 ```
 
-この実行では SUMO を外部プロセスとして起動し、車両発生・走行・終了までを自動実行します。
-結果は `experiments/minimal_merge_results.csv` に出力されます。
+このエントリポイントは、現時点の最小無制御ケースを手早く確認するための convenience 実行です。
+将来の実験拡張で `main.py` の既定挙動が変わる可能性があるため、公開用のベースライン再現には次のステップ別スクリプトを使ってください。
 
-### 3. 生成されるファイル
+### 3. 公開用の無制御ベースラインスイープ
+
+```bash
+uv run python experiments/step01_baseline/run.py \
+  --main-rates 20,40,60 \
+  --side-rates 10,20,30 \
+  --duration 1800 \
+  --seed 42
+```
+
+このスクリプトは結果を `experiments/step01_baseline/results/baseline.csv`、条件を同じ場所の `metadata.json` に保存します。
+SUMO の中間生成物は `sumo/output/generated/` に出力され、公開用成果物とは分離されます。
+公開用の比較実験や記事の再現にそのまま使える、安定したベースライン再現コマンドです。
+
+容量限界を確認する広域スイープは `uv run python experiments/step02_throughput/run.py` で実行します。
+
+### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
 - ノード定義: `sumo/network/minimal_merge.nod.xml`
@@ -81,7 +97,9 @@ traffic-merge-simulation/
 │   ├── network/
 │   └── routes/
 ├── experiments/
+│   ├── common/
+│   ├── step01_baseline/
+│   └── step02_throughput/
 ├── tests/
 └── main.py
 ```
-
