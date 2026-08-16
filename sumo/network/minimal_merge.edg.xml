@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
+    <edge id="main_in" from="main_source" to="merge" priority="2" numLanes="1" speed="30.00" length="492.80"/>
+    <edge id="side_in" from="side_source" to="merge" priority="1" numLanes="1" speed="30.00" length="396.00"/>
+    <edge id="out" from="merge" to="sink" priority="1" numLanes="1" speed="30.00" length="1096.00"/>
+</edges>

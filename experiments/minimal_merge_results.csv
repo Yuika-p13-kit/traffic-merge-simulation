@@ -1,0 +1,2 @@
+case_name,main_veh_h,side_veh_h,generated_veh,arrived_veh,avg_travel_time_s,total_travel_time_s,unfinished_vehicles
+base_case,1000,400,327,327,73.899,24165.0,0

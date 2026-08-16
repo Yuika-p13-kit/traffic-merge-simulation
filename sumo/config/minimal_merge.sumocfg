@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumocfg_file.xsd">
+    <input>
+        <net-file value="../network/minimal_merge.net.xml"/>
+        <route-files value="../routes/minimal_merge.rou.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end value="1200"/>
+    </time>
+
+    <processing>
+        <time-to-teleport value="-1"/>
+        <default.speeddev value="0.1"/>
+    </processing>
+</configuration>
