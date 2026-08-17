@@ -1,0 +1,34 @@
+{
+  "experiment_id": "step04_01_cooperative_merge",
+  "script": "experiments/step04-01_cooperative_merge/run.py",
+  "raw_csv": "cooperative_raw.csv",
+  "summary_csv": "cooperative_summary.csv",
+  "strategies": [
+    "uncontrolled",
+    "cooperative"
+  ],
+  "total_rates": [
+    1000
+  ],
+  "demand_ratios": [
+    "1:2",
+    "1:3"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "cooperative_settings": {
+    "side_activation_distance_m": 80.0,
+    "side_wait_threshold_s": 2.0,
+    "main_control_distance_m": 180.0,
+    "main_min_distance_m": 40.0,
+    "cooperative_speed_m_s": 15.0
+  },
+  "control_definition": "No signal. Slow one approaching mainline vehicle when a side vehicle waits near the merge."
+}

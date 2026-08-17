@@ -81,6 +81,12 @@ SUMO の中間生成物は `sumo/output/generated/` に出力され、公開用�
 uv run python experiments/step03_demand_ratio/run.py
 ```
 
+サブの合流待ちに応じて主線車両へ連続的に速度助言を与えた初期協調方式（Step 4-1）は次で再現できます。
+
+```bash
+uv run python experiments/step04-01_cooperative_merge/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -106,7 +112,8 @@ traffic-merge-simulation/
 │   ├── common/
 │   ├── step01_baseline/
 │   ├── step02_throughput/
-│   └── step03_demand_ratio/
+│   ├── step03_demand_ratio/
+│   └── step04-01_cooperative_merge/
 ├── tests/
 └── main.py
 ```

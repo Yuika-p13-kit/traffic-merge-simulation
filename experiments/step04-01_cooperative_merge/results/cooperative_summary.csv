@@ -1,0 +1,5 @@
+strategy,demand_ratio,total_demand_veh_h,main_veh_h,side_veh_h,runs,free_flow_runs,queue_runs,breakdown_runs,classification,mean_peak_queue_vehicles,mean_avg_wait_time_s,mean_total_travel_time_s,mean_unfinished_vehicles,mean_throughput_veh_h,mean_cooperation_events,mean_yielded_main_vehicles
+cooperative,1:2,1000,333,667,5,0,0,5,breakdown,277.8,167.9194620580392,121080.8,84.8,832.4,165.0,163.0
+cooperative,1:3,1000,250,750,5,0,0,5,breakdown,269.4,146.30483942441248,117922.2,77.4,845.2,119.8,119.8
+uncontrolled,1:2,1000,333,667,5,0,0,5,breakdown,244.2,138.56602772994933,119127.2,53.2,895.5999999999999,0.0,0.0
+uncontrolled,1:3,1000,250,750,5,0,0,5,breakdown,242.6,125.56969484615793,116362.0,55.0,890.0,0.0,0.0
