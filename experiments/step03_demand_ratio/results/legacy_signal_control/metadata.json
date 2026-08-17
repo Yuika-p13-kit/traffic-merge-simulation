@@ -1,0 +1,31 @@
+{
+  "experiment_id": "step03_fixed_control",
+  "script": "experiments/step03_fixed_control/run.py",
+  "raw_csv": "fixed_control_raw.csv",
+  "summary_csv": "fixed_control_summary.csv",
+  "strategies": [
+    "uncontrolled",
+    "1:1",
+    "2:1",
+    "3:1",
+    "5:1"
+  ],
+  "strategy_definition": "main vehicles passed : side vehicles passed; demand ratio is independent",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "main_rates": [
+    200
+  ],
+  "side_rates": [
+    818,
+    819,
+    820
+  ]
+}

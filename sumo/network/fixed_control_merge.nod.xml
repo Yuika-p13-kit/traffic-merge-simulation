@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<nodes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
-    <node id="main_source" x="0.00" y="0.00" type="dead_end"/>
-    <node id="merge" x="500.00" y="0.00" type="traffic_light" tl="merge"/>
-    <node id="side_source" x="500.00" y="400.00" type="dead_end"/>
-    <node id="sink" x="1600.00" y="0.00" type="dead_end"/>
-</nodes>
