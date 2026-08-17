@@ -3,7 +3,10 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+import pytest
+
 from traffic_merge_sim.minimal_merge import run_load_sweep, run_single_case
+from traffic_merge_sim.fixed_control import FixedRatioController, parse_strategy
 
 
 def test_minimal_merge_config_exists_and_python_runner_completes() -> None:
@@ -73,3 +76,16 @@ def test_cli_allows_overriding_q_main_q_side_seed_and_duration() -> None:
     )
 
     assert result.returncode == 0, result.stderr
+
+
+def test_fixed_ratio_controller_counts_passed_vehicles() -> None:
+    controller = FixedRatioController(2, 1)
+
+    assert controller.signal_state == "rG"
+    assert controller.update("main", True, True) == "rG"
+    assert controller.update("main", True, True) == "Gr"
+    assert controller.update("side", True, True) == "rG"
+    assert parse_strategy("5:1") == (5, 1)
+
+    with pytest.raises(ValueError):
+        parse_strategy("5 lanes")

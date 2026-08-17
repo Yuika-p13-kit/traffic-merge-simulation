@@ -75,6 +75,12 @@ SUMO の中間生成物は `sumo/output/generated/` に出力され、公開用�
 
 容量限界を確認する広域スイープは `uv run python experiments/step02_throughput/run.py` で実行します。
 
+無制御と固定通過比率（主線車両数 : 従線車両数）を比較する Step 3 は次で実行します。
+
+```bash
+uv run python experiments/step03_fixed_control/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -99,7 +105,8 @@ traffic-merge-simulation/
 ├── experiments/
 │   ├── common/
 │   ├── step01_baseline/
-│   └── step02_throughput/
+│   ├── step02_throughput/
+│   └── step03_fixed_control/
 ├── tests/
 └── main.py
 ```
