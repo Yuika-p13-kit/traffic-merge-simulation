@@ -105,6 +105,14 @@ uv run python experiments/step05_metrics_visualization/run.py
 uv run python experiments/step05-02_insertion_wait_tts/run.py
 ```
 
+Step 5-2の同一seed差と95%信頼区間を可視化する Step 5-3 は次で実行します。
+
+```bash
+uv run python experiments/step05-03_paired_confidence/run.py
+```
+
+Step 5-1〜5-3で当初の評価指標拡張・可視化要件を満たしたため、Step 5は完了しています。
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -134,7 +142,8 @@ traffic-merge-simulation/
 │   ├── step04-01_cooperative_merge/
 │   ├── step04-02_cooperative_merge/
 │   ├── step05_metrics_visualization/
-│   └── step05-02_insertion_wait_tts/
+│   ├── step05-02_insertion_wait_tts/
+│   └── step05-03_paired_confidence/
 ├── tests/
 └── main.py
 ```
