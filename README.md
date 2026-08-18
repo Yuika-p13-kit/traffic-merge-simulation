@@ -87,6 +87,12 @@ uv run python experiments/step03_demand_ratio/run.py
 uv run python experiments/step04-01_cooperative_merge/run.py
 ```
 
+介入完了検知、最大介入時間、クールダウンを追加した改善版（Step 4-2）は次で実行します。
+
+```bash
+uv run python experiments/step04-02_cooperative_merge/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -113,7 +119,8 @@ traffic-merge-simulation/
 │   ├── step01_baseline/
 │   ├── step02_throughput/
 │   ├── step03_demand_ratio/
-│   └── step04-01_cooperative_merge/
+│   ├── step04-01_cooperative_merge/
+│   └── step04-02_cooperative_merge/
 ├── tests/
 └── main.py
 ```
