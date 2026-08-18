@@ -93,6 +93,12 @@ uv run python experiments/step04-01_cooperative_merge/run.py
 uv run python experiments/step04-02_cooperative_merge/run.py
 ```
 
+主線・サブ別の待ち時間、ネットワーク内の未到着車両を含む Total Time Spent、需要条件別の SVG グラフを生成する Step 5-1 は次で実行します。
+
+```bash
+uv run python experiments/step05_metrics_visualization/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -120,7 +126,8 @@ traffic-merge-simulation/
 │   ├── step02_throughput/
 │   ├── step03_demand_ratio/
 │   ├── step04-01_cooperative_merge/
-│   └── step04-02_cooperative_merge/
+│   ├── step04-02_cooperative_merge/
+│   └── step05_metrics_visualization/
 ├── tests/
 └── main.py
 ```

@@ -1,0 +1,51 @@
+{
+  "experiment_id": "step05_01_metrics_visualization",
+  "script": "experiments/step05_metrics_visualization/run.py",
+  "raw_csv": "metrics_raw.csv",
+  "summary_csv": "metrics_summary.csv",
+  "figures": [
+    "figures/mean_total_time_spent_s.svg",
+    "figures/mean_main_avg_wait_time_s.svg",
+    "figures/mean_side_avg_wait_time_s.svg",
+    "figures/mean_side_peak_queue_vehicles.svg",
+    "figures/mean_throughput_veh_h.svg",
+    "figures/mean_side_merges_after_intervention.svg"
+  ],
+  "strategies": [
+    "uncontrolled",
+    "cooperative_limited"
+  ],
+  "total_rates": [
+    800,
+    1000,
+    1200
+  ],
+  "demand_ratios": [
+    "1:1",
+    "1:2",
+    "1:3",
+    "1:4",
+    "1:5"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "intervention_response_window_s": 30.0,
+  "cooperative_settings": {
+    "side_activation_distance_m": 80.0,
+    "side_wait_threshold_s": 2.0,
+    "main_control_distance_m": 180.0,
+    "main_min_distance_m": 40.0,
+    "min_conflict_eta_s": 2.0,
+    "max_conflict_eta_s": 8.0,
+    "cooperative_speed_m_s": 22.5,
+    "max_intervention_s": 8.0,
+    "cooldown_s": 8.0
+  }
+}
