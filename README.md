@@ -99,6 +99,12 @@ uv run python experiments/step04-02_cooperative_merge/run.py
 uv run python experiments/step05_metrics_visualization/run.py
 ```
 
+道路へ入れずに待つ車両の挿入待ち時間まで TTS に含める Step 5-2 は次で実行します。
+
+```bash
+uv run python experiments/step05-02_insertion_wait_tts/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -127,7 +133,8 @@ traffic-merge-simulation/
 │   ├── step03_demand_ratio/
 │   ├── step04-01_cooperative_merge/
 │   ├── step04-02_cooperative_merge/
-│   └── step05_metrics_visualization/
+│   ├── step05_metrics_visualization/
+│   └── step05-02_insertion_wait_tts/
 ├── tests/
 └── main.py
 ```

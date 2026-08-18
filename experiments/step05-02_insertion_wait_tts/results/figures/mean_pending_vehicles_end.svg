@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1125" viewBox="0 0 1100 1125">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="24" y="38" font-family="sans-serif" font-size="22" font-weight="700">mean_pending_vehicles_end</text>
+<text x="24" y="62" font-family="sans-serif" font-size="13" fill="#475569">需要条件・戦略別（複数 seed 平均）</text>
+<text x="24" y="103" font-family="sans-serif" font-size="12">800 veh/h  1:1  cooperative_limited</text>
+<rect x="350" y="88" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="103" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="137" font-family="sans-serif" font-size="12">800 veh/h  1:2  cooperative_limited</text>
+<rect x="350" y="122" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="137" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="171" font-family="sans-serif" font-size="12">800 veh/h  1:3  cooperative_limited</text>
+<rect x="350" y="156" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="171" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="205" font-family="sans-serif" font-size="12">800 veh/h  1:4  cooperative_limited</text>
+<rect x="350" y="190" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="205" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="239" font-family="sans-serif" font-size="12">800 veh/h  1:5  cooperative_limited</text>
+<rect x="350" y="224" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="239" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="273" font-family="sans-serif" font-size="12">1000 veh/h  1:1  cooperative_limited</text>
+<rect x="350" y="258" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="273" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="307" font-family="sans-serif" font-size="12">1000 veh/h  1:2  cooperative_limited</text>
+<rect x="350" y="292" width="53.4" height="20" rx="3" fill="#0f766e"/>
+<text x="408.4" y="307" font-family="sans-serif" font-size="12">8.2</text>
+<text x="24" y="341" font-family="sans-serif" font-size="12">1000 veh/h  1:3  cooperative_limited</text>
+<rect x="350" y="326" width="31.3" height="20" rx="3" fill="#0f766e"/>
+<text x="386.3" y="341" font-family="sans-serif" font-size="12">4.8</text>
+<text x="24" y="375" font-family="sans-serif" font-size="12">1000 veh/h  1:4  cooperative_limited</text>
+<rect x="350" y="360" width="3.9" height="20" rx="3" fill="#0f766e"/>
+<text x="358.9" y="375" font-family="sans-serif" font-size="12">0.6</text>
+<text x="24" y="409" font-family="sans-serif" font-size="12">1000 veh/h  1:5  cooperative_limited</text>
+<rect x="350" y="394" width="0.0" height="20" rx="3" fill="#0f766e"/>
+<text x="355.0" y="409" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="443" font-family="sans-serif" font-size="12">1200 veh/h  1:1  cooperative_limited</text>
+<rect x="350" y="428" width="129.0" height="20" rx="3" fill="#0f766e"/>
+<text x="484.0" y="443" font-family="sans-serif" font-size="12">19.8</text>
+<text x="24" y="477" font-family="sans-serif" font-size="12">1200 veh/h  1:2  cooperative_limited</text>
+<rect x="350" y="462" width="582.3" height="20" rx="3" fill="#0f766e"/>
+<text x="937.3" y="477" font-family="sans-serif" font-size="12">89.4</text>
+<text x="24" y="511" font-family="sans-serif" font-size="12">1200 veh/h  1:3  cooperative_limited</text>
+<rect x="350" y="496" width="691.8" height="20" rx="3" fill="#0f766e"/>
+<text x="1046.8" y="511" font-family="sans-serif" font-size="12">106.2</text>
+<text x="24" y="545" font-family="sans-serif" font-size="12">1200 veh/h  1:4  cooperative_limited</text>
+<rect x="350" y="530" width="656.6" height="20" rx="3" fill="#0f766e"/>
+<text x="1011.6" y="545" font-family="sans-serif" font-size="12">100.8</text>
+<text x="24" y="579" font-family="sans-serif" font-size="12">1200 veh/h  1:5  cooperative_limited</text>
+<rect x="350" y="564" width="651.4" height="20" rx="3" fill="#0f766e"/>
+<text x="1006.4" y="579" font-family="sans-serif" font-size="12">100.0</text>
+<text x="24" y="613" font-family="sans-serif" font-size="12">800 veh/h  1:1  uncontrolled</text>
+<rect x="350" y="598" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="613" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="647" font-family="sans-serif" font-size="12">800 veh/h  1:2  uncontrolled</text>
+<rect x="350" y="632" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="647" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="681" font-family="sans-serif" font-size="12">800 veh/h  1:3  uncontrolled</text>
+<rect x="350" y="666" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="681" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="715" font-family="sans-serif" font-size="12">800 veh/h  1:4  uncontrolled</text>
+<rect x="350" y="700" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="715" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="749" font-family="sans-serif" font-size="12">800 veh/h  1:5  uncontrolled</text>
+<rect x="350" y="734" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="749" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="783" font-family="sans-serif" font-size="12">1000 veh/h  1:1  uncontrolled</text>
+<rect x="350" y="768" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="783" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="817" font-family="sans-serif" font-size="12">1000 veh/h  1:2  uncontrolled</text>
+<rect x="350" y="802" width="45.6" height="20" rx="3" fill="#64748b"/>
+<text x="400.6" y="817" font-family="sans-serif" font-size="12">7.0</text>
+<text x="24" y="851" font-family="sans-serif" font-size="12">1000 veh/h  1:3  uncontrolled</text>
+<rect x="350" y="836" width="58.6" height="20" rx="3" fill="#64748b"/>
+<text x="413.6" y="851" font-family="sans-serif" font-size="12">9.0</text>
+<text x="24" y="885" font-family="sans-serif" font-size="12">1000 veh/h  1:4  uncontrolled</text>
+<rect x="350" y="870" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="885" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="919" font-family="sans-serif" font-size="12">1000 veh/h  1:5  uncontrolled</text>
+<rect x="350" y="904" width="0.0" height="20" rx="3" fill="#64748b"/>
+<text x="355.0" y="919" font-family="sans-serif" font-size="12">0.0</text>
+<text x="24" y="953" font-family="sans-serif" font-size="12">1200 veh/h  1:1  uncontrolled</text>
+<rect x="350" y="938" width="109.4" height="20" rx="3" fill="#64748b"/>
+<text x="464.4" y="953" font-family="sans-serif" font-size="12">16.8</text>
+<text x="24" y="987" font-family="sans-serif" font-size="12">1200 veh/h  1:2  uncontrolled</text>
+<rect x="350" y="972" width="594.1" height="20" rx="3" fill="#64748b"/>
+<text x="949.1" y="987" font-family="sans-serif" font-size="12">91.2</text>
+<text x="24" y="1021" font-family="sans-serif" font-size="12">1200 veh/h  1:3  uncontrolled</text>
+<rect x="350" y="1006" width="710.0" height="20" rx="3" fill="#64748b"/>
+<text x="1065.0" y="1021" font-family="sans-serif" font-size="12">109.0</text>
+<text x="24" y="1055" font-family="sans-serif" font-size="12">1200 veh/h  1:4  uncontrolled</text>
+<rect x="350" y="1040" width="630.5" height="20" rx="3" fill="#64748b"/>
+<text x="985.5" y="1055" font-family="sans-serif" font-size="12">96.8</text>
+<text x="24" y="1089" font-family="sans-serif" font-size="12">1200 veh/h  1:5  uncontrolled</text>
+<rect x="350" y="1074" width="276.2" height="20" rx="3" fill="#64748b"/>
+<text x="631.2" y="1089" font-family="sans-serif" font-size="12">42.4</text>
+</svg>
