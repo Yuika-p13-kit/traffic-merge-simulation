@@ -59,6 +59,17 @@ uv run python main.py
 このエントリポイントは、現時点の最小無制御ケースを手早く確認するための convenience 実行です。
 将来の実験拡張で `main.py` の既定挙動が変わる可能性があるため、公開用のベースライン再現には次のステップ別スクリプトを使ってください。
 
+### 合流状態の静止画可視化
+
+SUMO-GUIを使わず、SUMO標準のFCD出力を基に指定時刻の状態をPNGとして保存できます。道路形状はネットワーク定義から読み込み、主線車両を青、従線車両を赤で表示します。
+
+```bash
+uv run python -m traffic_merge_sim.visualize \
+  --main-rate 200 --side-rate 820 --duration 600 --seed 42 --time 300
+```
+
+既定では、FCD中間データとPNGを `sumo/output/generated/visualization/` に生成します。このディレクトリはGit管理対象外なので、同じコマンドでいつでも再生成できます。`--output results/snapshot.png` のようにPNGの保存先を指定することもできます。
+
 ### 3. 公開用の無制御ベースラインスイープ
 
 ```bash
