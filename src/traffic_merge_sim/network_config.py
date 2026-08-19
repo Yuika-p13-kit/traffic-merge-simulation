@@ -22,6 +22,8 @@ class MergeNetworkConfig:
     ramp_monitor_lane: str
     downstream_edge: str
     merge_completion_edges: tuple[str, ...]
+    display_name: str
+    merge_markers: tuple[tuple[float, float, str], ...]
 
 
 MINIMAL_MERGE = MergeNetworkConfig(
@@ -33,6 +35,8 @@ MINIMAL_MERGE = MergeNetworkConfig(
     ramp_monitor_lane="side_in_0",
     downstream_edge="out",
     merge_completion_edges=("out",),
+    display_name="Minimal merge",
+    merge_markers=((500.0, 412.0, "merge"),),
 )
 
 HIGHWAY_MERGE_V2 = MergeNetworkConfig(
@@ -44,4 +48,8 @@ HIGHWAY_MERGE_V2 = MergeNetworkConfig(
     ramp_monitor_lane="ramp_merge_0",
     downstream_edge="downstream",
     merge_completion_edges=("downstream",),
+    display_name="Highway merge v2",
+    merge_markers=((500.0, 58.0, "parallel merge starts"), (1100.0, 58.0, "merge completes")),
 )
+
+NETWORK_CONFIGS = {config.name: config for config in (MINIMAL_MERGE, HIGHWAY_MERGE_V2)}

@@ -81,6 +81,8 @@ uv run python -m traffic_merge_sim.visualize \
   --main-rate 200 --side-rate 820 --duration 600 --seed 42 --time 300
 ```
 
+高速道路型ネットワークを描画する場合は、`--network highway_merge_v2` を指定します。画像とFCDはネットワーク名ごとの出力先に分離されます。
+
 既定では、FCD中間データとPNGを `sumo/output/generated/visualization/` に生成します。このディレクトリはGit管理対象外なので、同じコマンドでいつでも再生成できます。`--output results/snapshot.png` のようにPNGの保存先を指定することもできます。
 
 ### 3. 公開用の無制御ベースラインスイープ
