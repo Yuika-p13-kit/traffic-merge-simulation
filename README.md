@@ -130,6 +130,12 @@ Step 5-1〜5-3で当初の評価指標拡張・可視化要件を満たしたた
 uv run python experiments/step06_ramp_metering/run.py
 ```
 
+4秒間隔を主線混雑時だけ作動させる Step 6-2 は次で実行します。
+
+```bash
+uv run python experiments/step06-02_on_demand_ramp_metering/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`

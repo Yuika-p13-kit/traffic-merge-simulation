@@ -1,0 +1,54 @@
+{
+  "experiment_id": "step06_02_on_demand_ramp_metering",
+  "script": "experiments/step06-02_on_demand_ramp_metering/run.py",
+  "raw_csv": "on_demand_raw.csv",
+  "paired_csv": "paired_differences.csv",
+  "confidence_csv": "paired_confidence_summary.csv",
+  "figures": [
+    "figures/paired_insertion_wait_time_s_95ci.svg",
+    "figures/paired_network_time_spent_s_95ci.svg",
+    "figures/paired_throughput_veh_h_95ci.svg",
+    "figures/paired_total_time_spent_s_95ci.svg",
+    "figures/paired_unfinished_vehicles_95ci.svg"
+  ],
+  "strategies": [
+    "uncontrolled",
+    "cooperative_limited",
+    "ramp_fixed_4s",
+    "ramp_on_demand_4s"
+  ],
+  "total_rates": [
+    800,
+    1000,
+    1200
+  ],
+  "demand_ratios": [
+    "1:1",
+    "1:2",
+    "1:3",
+    "1:4",
+    "1:5"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "meter_stop_position_m": 330.0,
+  "control_entry_position_m": 200.0,
+  "on_demand_settings": {
+    "release_interval_s": 4.0,
+    "min_main_vehicles": 1,
+    "activation_speed_m_s": 27.0,
+    "recovery_speed_m_s": 29.0,
+    "activation_persistence_s": 3.0,
+    "recovery_persistence_s": 10.0,
+    "min_active_time_s": 30.0
+  },
+  "congestion_signal": "mean speed and vehicle count on main_in_0 with persistence and hysteresis",
+  "difference_definition": "strategy - uncontrolled for the same condition and seed"
+}
