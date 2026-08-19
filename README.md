@@ -59,6 +59,17 @@ uv run python main.py
 このエントリポイントは、現時点の最小無制御ケースを手早く確認するための convenience 実行です。
 将来の実験拡張で `main.py` の既定挙動が変わる可能性があるため、公開用のベースライン再現には次のステップ別スクリプトを使ってください。
 
+### 合流状態の静止画可視化
+
+SUMO-GUIを使わず、SUMO標準のFCD出力を基に指定時刻の状態をPNGとして保存できます。道路形状はネットワーク定義から読み込み、主線車両を青、従線車両を赤で表示します。
+
+```bash
+uv run python -m traffic_merge_sim.visualize \
+  --main-rate 200 --side-rate 820 --duration 600 --seed 42 --time 300
+```
+
+既定では、FCD中間データとPNGを `sumo/output/generated/visualization/` に生成します。このディレクトリはGit管理対象外なので、同じコマンドでいつでも再生成できます。`--output results/snapshot.png` のようにPNGの保存先を指定することもできます。
+
 ### 3. 公開用の無制御ベースラインスイープ
 
 ```bash
@@ -93,6 +104,32 @@ uv run python experiments/step04-01_cooperative_merge/run.py
 uv run python experiments/step04-02_cooperative_merge/run.py
 ```
 
+主線・サブ別の待ち時間、ネットワーク内の未到着車両を含む Total Time Spent、需要条件別の SVG グラフを生成する Step 5-1 は次で実行します。
+
+```bash
+uv run python experiments/step05_metrics_visualization/run.py
+```
+
+道路へ入れずに待つ車両の挿入待ち時間まで TTS に含める Step 5-2 は次で実行します。
+
+```bash
+uv run python experiments/step05-02_insertion_wait_tts/run.py
+```
+
+Step 5-2の同一seed差と95%信頼区間を可視化する Step 5-3 は次で実行します。
+
+```bash
+uv run python experiments/step05-03_paired_confidence/run.py
+```
+
+Step 5-1〜5-3で当初の評価指標拡張・可視化要件を満たしたため、Step 5は完了しています。
+
+サブ側を4 / 6 / 8秒の固定間隔で1台ずつ放流し、無制御・限定協調合流と完全版TTSの同一seed差で比較する Step 6 は次で実行します。
+
+```bash
+uv run python experiments/step06_ramp_metering/run.py
+```
+
 ### 4. 生成されるファイル
 
 - ネットワーク定義: `sumo/network/minimal_merge.net.xml`
@@ -120,7 +157,10 @@ traffic-merge-simulation/
 │   ├── step02_throughput/
 │   ├── step03_demand_ratio/
 │   ├── step04-01_cooperative_merge/
-│   └── step04-02_cooperative_merge/
+│   ├── step04-02_cooperative_merge/
+│   ├── step05_metrics_visualization/
+│   ├── step05-02_insertion_wait_tts/
+│   └── step05-03_paired_confidence/
 ├── tests/
 └── main.py
 ```

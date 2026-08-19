@@ -1,0 +1,53 @@
+{
+  "experiment_id": "step05_02_insertion_wait_tts",
+  "script": "experiments/step05-02_insertion_wait_tts/run.py",
+  "raw_csv": "complete_tts_raw.csv",
+  "summary_csv": "complete_tts_summary.csv",
+  "figures": [
+    "figures/mean_total_time_spent_s.svg",
+    "figures/mean_network_time_spent_s.svg",
+    "figures/mean_insertion_wait_time_s.svg",
+    "figures/mean_main_insertion_wait_time_s.svg",
+    "figures/mean_side_insertion_wait_time_s.svg",
+    "figures/mean_pending_vehicles_end.svg",
+    "figures/mean_throughput_veh_h.svg"
+  ],
+  "strategies": [
+    "uncontrolled",
+    "cooperative_limited"
+  ],
+  "total_rates": [
+    800,
+    1000,
+    1200
+  ],
+  "demand_ratios": [
+    "1:1",
+    "1:2",
+    "1:3",
+    "1:4",
+    "1:5"
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "tts_definition": "network occupancy integral + pending insertion vehicle integral",
+  "intervention_response_window_s": 30.0,
+  "cooperative_settings": {
+    "side_activation_distance_m": 80.0,
+    "side_wait_threshold_s": 2.0,
+    "main_control_distance_m": 180.0,
+    "main_min_distance_m": 40.0,
+    "min_conflict_eta_s": 2.0,
+    "max_conflict_eta_s": 8.0,
+    "cooperative_speed_m_s": 22.5,
+    "max_intervention_s": 8.0,
+    "cooldown_s": 8.0
+  }
+}

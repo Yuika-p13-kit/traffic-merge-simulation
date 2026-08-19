@@ -26,6 +26,7 @@ def run_single_case(
     *, q_main: int | None = None, q_side: int | None = None,
     duration: float | None = None, seed: int | None = None,
     clearance_time: float = 0.0,
+    fcd_output_path: Path | None = None,
 ) -> dict[str, float | int | str | None]:
     main_veh_h = q_main if q_main is not None else main_veh_h
     side_veh_h = q_side if q_side is not None else side_veh_h
@@ -41,7 +42,9 @@ def run_single_case(
     route_path = GENERATED_OUTPUT_DIR / f"{case_name}.rou.xml"
     tripinfo_path = GENERATED_OUTPUT_DIR / f"{case_name}.tripinfo.xml"
     summary_path = GENERATED_OUTPUT_DIR / f"{case_name}.summary.xml"
-    for path in (route_path, tripinfo_path, summary_path):
+    for path in (route_path, tripinfo_path, summary_path, fcd_output_path):
+        if path is None:
+            continue
         path.unlink(missing_ok=True)
 
     build_case_route_file(route_path, main_veh_h, side_veh_h, demand_duration)
@@ -51,6 +54,9 @@ def run_single_case(
         "--summary-output", str(summary_path), "--xml-validation", "never",
         "--time-to-teleport", "-1", "--end", str(simulation_end),
     ]
+    if fcd_output_path is not None:
+        fcd_output_path.parent.mkdir(parents=True, exist_ok=True)
+        command.extend(["--fcd-output", str(fcd_output_path)])
     if seed is not None:
         command.extend(["--seed", str(seed)])
     subprocess.run(command, check=True)

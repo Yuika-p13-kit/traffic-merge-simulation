@@ -1,0 +1,23 @@
+{
+  "experiment_id": "step05_03_paired_confidence",
+  "script": "experiments/step05-03_paired_confidence/run.py",
+  "source_csv": "experiments/step05-02_insertion_wait_tts/results/complete_tts_raw.csv",
+  "paired_csv": "paired_differences.csv",
+  "summary_csv": "paired_confidence_summary.csv",
+  "figures": [
+    "figures/paired_insertion_wait_time_s_95ci.svg",
+    "figures/paired_network_time_spent_s_95ci.svg",
+    "figures/paired_throughput_veh_h_95ci.svg",
+    "figures/paired_total_time_spent_s_95ci.svg",
+    "figures/paired_unfinished_vehicles_95ci.svg"
+  ],
+  "difference_definition": "cooperative_limited - uncontrolled for the same demand condition and seed",
+  "confidence_interval": "two-sided 95% Student-t interval for the mean paired difference",
+  "metrics": [
+    "insertion_wait_time_s",
+    "network_time_spent_s",
+    "throughput_veh_h",
+    "total_time_spent_s",
+    "unfinished_vehicles"
+  ]
+}
