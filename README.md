@@ -45,6 +45,16 @@ export PATH="$SUMO_HOME/bin:$PATH"
 - 信号: なし
 - Ramp Metering: なし
 
+## 高速道路型合流モデル（v2）
+
+新しい研究系列は `highway_merge_v2` を使います。主線（上流2車線）、ランプ、600 m の並走合流区間、下流1車線を明示したネットワークです。旧 `minimal_merge` と結果・監視区間を共有しません。
+
+- ネットワーク: `sumo/network/highway_merge_v2.net.xml`
+- ネットワーク設定と監視区間: `src/traffic_merge_sim/network_config.py`
+- 無制御ケースのPython入口: `traffic_merge_sim.highway_merge.run_highway_single_case`
+
+Step 1〜3 はこのネットワークで需要範囲と合流長を再較正してから実施します。Step 4〜6 の制御実験は、その後に本系列専用として追加します。
+
 ## 実行方法
 
 ### 1. GUI で動作確認
