@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Keep the small merge network visible when opening SUMO-GUI. -->
+<viewsettings>
+    <scheme name="standard"/>
+    <viewport zoom="100" x="800" y="200" angle="0.00"/>
+    <delay value="200"/>
+</viewsettings>

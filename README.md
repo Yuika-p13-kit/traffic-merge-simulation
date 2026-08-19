@@ -1,5 +1,7 @@
 # Traffic Merge Simulation
 
+> **研究状態（2026-08-19）:** `minimal_merge` を用いたStep 1〜6-2の初期研究は、可視化により想定ネットワークとの不一致が判明したためクローズしました。既存結果はこの抽象ネットワークにのみ有効です。終了判断と再始動条件は [`docs/research_closure_2026-08-19.md`](docs/research_closure_2026-08-19.md) を参照してください。新しい研究は同じリポジトリ内に別ネットワークとして追加します。
+
 Python と Eclipse SUMO を使った車線合流（merge）シミュレーションの実験環境です。
 
 ## 概要
@@ -12,6 +14,7 @@ Python と Eclipse SUMO を使った車線合流（merge）シミュレーショ
 ## プロジェクト文書
 
 - 詳細なプロジェクト概要: `PROJECT_OVERVIEW.md`
+- 初期研究の終了レポート: `docs/research_closure_2026-08-19.md`
 
 ## 前提条件
 
@@ -128,6 +131,12 @@ Step 5-1〜5-3で当初の評価指標拡張・可視化要件を満たしたた
 
 ```bash
 uv run python experiments/step06_ramp_metering/run.py
+```
+
+4秒間隔を主線混雑時だけ作動させる Step 6-2 は次で実行します。
+
+```bash
+uv run python experiments/step06-02_on_demand_ramp_metering/run.py
 ```
 
 ### 4. 生成されるファイル
