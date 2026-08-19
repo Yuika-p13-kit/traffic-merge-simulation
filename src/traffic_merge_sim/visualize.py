@@ -1,4 +1,4 @@
-"""Create static snapshots of a minimal-merge SUMO run from FCD output."""
+"""Create static snapshots of a selected SUMO merge network from FCD output."""
 
 from __future__ import annotations
 
@@ -13,7 +13,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from .paths import GENERATED_OUTPUT_DIR, NETWORK_PATH
+from .network_config import MINIMAL_MERGE, NETWORK_CONFIGS, MergeNetworkConfig
+from .paths import GENERATED_OUTPUT_DIR
 from .sumo_runner import run_single_case
 
 
@@ -65,12 +66,13 @@ def vehicle_stream(vehicle_id: str) -> str:
 
 
 def plot_snapshot(
-    network_path: Path, fcd_path: Path, requested_time_s: float, output_path: Path,
+    network: MergeNetworkConfig, fcd_path: Path, requested_time_s: float, output_path: Path,
 ) -> float:
     """Save a static map of the nearest FCD timestep and return its time."""
     actual_time_s, vehicles = read_fcd_timestep(fcd_path, requested_time_s)
     figure, axis = plt.subplots(figsize=(12, 4.5), constrained_layout=True)
-    for shape in read_network_lane_shapes(network_path):
+    lane_shapes = read_network_lane_shapes(network.network_path)
+    for shape in lane_shapes:
         x_values, y_values = zip(*shape)
         axis.plot(x_values, y_values, color="#4b5563", linewidth=5, solid_capstyle="round", zorder=1)
         axis.plot(x_values, y_values, color="#d1d5db", linewidth=2.3, solid_capstyle="round", zorder=2)
@@ -84,14 +86,19 @@ def plot_snapshot(
                 c=colours[stream], s=52, edgecolors="white", linewidths=0.7, zorder=3,
             )
 
-    axis.axvline(500, color="#111827", linestyle="--", linewidth=1, alpha=0.65, zorder=0)
-    axis.text(500, 412, "merge", ha="center", va="bottom", fontsize=9)
+    for x, y, label in network.merge_markers:
+        axis.axvline(x, color="#111827", linestyle="--", linewidth=1, alpha=0.65, zorder=0)
+        axis.text(x, y, label, ha="center", va="bottom", fontsize=9)
     axis.set_aspect("equal", adjustable="box")
-    axis.set_xlim(-40, 1050)
-    axis.set_ylim(-55, 440)
+    all_points = [point for shape in lane_shapes for point in shape]
+    x_values, y_values = zip(*all_points)
+    x_margin = max(40.0, (max(x_values) - min(x_values)) * 0.04)
+    y_margin = max(40.0, (max(y_values) - min(y_values)) * 0.12)
+    axis.set_xlim(min(x_values) - x_margin, max(x_values) + x_margin)
+    axis.set_ylim(min(y_values) - y_margin, max(y_values) + y_margin)
     axis.set_xlabel("x (m)")
     axis.set_ylabel("y (m)")
-    axis.set_title(f"Minimal merge at t = {actual_time_s:g} s ({len(vehicles)} vehicles)")
+    axis.set_title(f"{network.display_name} at t = {actual_time_s:g} s ({len(vehicles)} vehicles)")
     axis.grid(False)
     axis.legend(handles=[
         Line2D([0], [0], marker="o", color="w", label="mainline", markerfacecolor=colours["main"], markersize=8),
@@ -104,7 +111,9 @@ def plot_snapshot(
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run the minimal merge model and save a static FCD snapshot.")
+    parser = argparse.ArgumentParser(description="Run a merge model and save a static FCD snapshot.")
+    parser.add_argument("--network", choices=sorted(NETWORK_CONFIGS), default=MINIMAL_MERGE.name,
+                        help="Network model to simulate (default: minimal_merge).")
     parser.add_argument("--time", type=float, required=True, help="Simulation time in seconds to visualise.")
     parser.add_argument("--main-rate", type=int, default=200, help="Mainline demand in veh/h (default: 200).")
     parser.add_argument("--side-rate", type=int, default=820, help="Ramp demand in veh/h (default: 820).")
@@ -118,15 +127,16 @@ def main() -> None:
     args = build_parser().parse_args()
     if args.time < 0 or args.time > args.duration:
         raise SystemExit("--time must be between 0 and --duration.")
-    case_name = f"main_{args.main_rate}_side_{args.side_rate}_seed_{args.seed}"
-    output_dir = GENERATED_OUTPUT_DIR / "visualization"
+    network = NETWORK_CONFIGS[args.network]
+    case_name = f"{network.name}_main_{args.main_rate}_side_{args.side_rate}_seed_{args.seed}"
+    output_dir = GENERATED_OUTPUT_DIR / "visualization" / network.name
     fcd_path = output_dir / f"{case_name}.fcd.xml"
     output_path = args.output or output_dir / f"{case_name}_t{args.time:g}.png"
     run_single_case(
         main_veh_h=args.main_rate, side_veh_h=args.side_rate, duration=args.duration,
-        seed=args.seed, fcd_output_path=fcd_path,
+        seed=args.seed, fcd_output_path=fcd_path, network=network,
     )
-    actual_time_s = plot_snapshot(NETWORK_PATH, fcd_path, args.time, output_path)
+    actual_time_s = plot_snapshot(network, fcd_path, args.time, output_path)
     print(f"FCD output: {fcd_path}")
     print(f"Snapshot at t={actual_time_s:g} s: {output_path}")
 

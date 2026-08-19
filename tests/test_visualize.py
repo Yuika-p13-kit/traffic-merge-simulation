@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from traffic_merge_sim.visualize import read_fcd_timestep, read_network_lane_shapes, vehicle_stream
+from traffic_merge_sim.network_config import HIGHWAY_MERGE_V2
+from traffic_merge_sim.visualize import build_parser, read_fcd_timestep, read_network_lane_shapes, vehicle_stream
 
 
 def test_read_network_lane_shapes_excludes_internal_edges() -> None:
@@ -29,3 +30,10 @@ def test_vehicle_stream_uses_route_builder_flow_ids() -> None:
     assert vehicle_stream("main_flow.8") == "main"
     assert vehicle_stream("side_flow.3") == "side"
     assert vehicle_stream("unknown.0") == "other"
+
+
+def test_visualization_accepts_highway_network_selection() -> None:
+    parser = build_parser()
+    args = parser.parse_args(["--network", HIGHWAY_MERGE_V2.name, "--time", "30"])
+
+    assert args.network == HIGHWAY_MERGE_V2.name
