@@ -17,6 +17,10 @@ from .network_config import MINIMAL_MERGE, NETWORK_CONFIGS, MergeNetworkConfig
 from .paths import GENERATED_OUTPUT_DIR
 from .sumo_runner import run_single_case
 
+ROAD_EDGE_WIDTH = 18
+ROAD_SURFACE_WIDTH = 13
+LANE_GUIDE_WIDTH = 1.2
+
 
 @dataclass(frozen=True)
 class VehicleState:
@@ -46,6 +50,15 @@ def read_network_lane_shapes(network_path: Path) -> list[list[tuple[float, float
             if shape:
                 shapes.append([tuple(map(float, point.split(","))) for point in shape.split()])
     return shapes
+
+
+def draw_roads(axis: plt.Axes, lane_shapes: list[list[tuple[float, float]]]) -> None:
+    """Draw wide, lane-scale road surfaces with a guide for every lane centre."""
+    for shape in lane_shapes:
+        x_values, y_values = zip(*shape)
+        axis.plot(x_values, y_values, color="#1f2937", linewidth=ROAD_EDGE_WIDTH, solid_capstyle="round", zorder=1)
+        axis.plot(x_values, y_values, color="#4b5563", linewidth=ROAD_SURFACE_WIDTH, solid_capstyle="round", zorder=2)
+        axis.plot(x_values, y_values, color="#d1d5db", linewidth=LANE_GUIDE_WIDTH, solid_capstyle="round", zorder=3)
 
 
 def read_fcd_timestep(fcd_path: Path, requested_time_s: float) -> tuple[float, list[VehicleState]]:
@@ -91,10 +104,7 @@ def plot_snapshot(
     actual_time_s, vehicles = read_fcd_timestep(fcd_path, requested_time_s)
     figure, axis = plt.subplots(figsize=(12, 4.5), constrained_layout=True)
     lane_shapes = read_network_lane_shapes(network.network_path)
-    for shape in lane_shapes:
-        x_values, y_values = zip(*shape)
-        axis.plot(x_values, y_values, color="#4b5563", linewidth=5, solid_capstyle="round", zorder=1)
-        axis.plot(x_values, y_values, color="#d1d5db", linewidth=2.3, solid_capstyle="round", zorder=2)
+    draw_roads(axis, lane_shapes)
 
     colours = {"main": "#2563eb", "side": "#dc2626", "other": "#6b7280"}
     for stream in ("main", "side", "other"):
@@ -102,13 +112,15 @@ def plot_snapshot(
         if selected:
             axis.scatter(
                 [vehicle.x for vehicle in selected], [vehicle.y for vehicle in selected],
-                c=colours[stream], s=52, edgecolors="white", linewidths=0.7, zorder=3,
+                c=colours[stream], s=52, edgecolors="white", linewidths=0.7, zorder=4,
             )
 
     for x, y, label in network.merge_markers:
         axis.axvline(x, color="#111827", linestyle="--", linewidth=1, alpha=0.65, zorder=0)
         axis.text(x, y, label, ha="center", va="bottom", fontsize=9)
-    axis.set_aspect("equal", adjustable="box")
+    # Expand the short transverse dimension so adjacent lanes remain legible
+    # across the full length of the highway.
+    axis.set_aspect("auto")
     all_points = [point for shape in lane_shapes for point in shape]
     x_values, y_values = zip(*all_points)
     x_margin = max(40.0, (max(x_values) - min(x_values)) * 0.04)
