@@ -127,7 +127,15 @@ uv run python experiments/highway_merge_v3/step02_throughput/run.py
 
 主線1,800 veh/hを固定し、ランプ需要を増やして、クリアランス終了後の未完了車両が残る境界を測定する。結果は `experiments/highway_merge_v3/step02_throughput/results/` に保存する。
 
-### 5. 旧 `minimal_merge` 系列の再現用スイープ
+### 5. v3 Step 3: 無制御時の需要比比較
+
+```bash
+PYTHONPATH=src uv run python experiments/highway_merge_v3/step03_demand_ratio/run.py
+```
+
+Step 2で得た境界付近の総需要3,950 / 4,000 veh/hを固定し、主線:ランプ需要比1:1〜1:5を比較する。結果は `experiments/highway_merge_v3/step03_demand_ratio/results/` に保存する。
+
+### 6. 旧 `minimal_merge` 系列の再現用スイープ
 
 ```bash
 uv run python experiments/step01_baseline/run.py \
