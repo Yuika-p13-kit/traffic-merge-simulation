@@ -19,3 +19,5 @@ PYTHONPATH=src uv run python experiments/highway_merge_v3/step03_demand_ratio/ru
 `breakdown` は、クリアランス終了時に未完了車両が1台以上残る場合だけに付ける。車線変更などの短時間停止は単独では破綻としない。seed間は多数決で集約し、同数なら安全側の `breakdown` を採用する。
 
 生データ、条件別集約、再現条件は `results/` に保存する。
+
+正式結果、代表条件の選定、目標達成度は [`RESULTS.md`](RESULTS.md) を参照する。
