@@ -52,4 +52,17 @@ HIGHWAY_MERGE_V2 = MergeNetworkConfig(
     merge_markers=((500.0, 58.0, "parallel merge starts"), (1100.0, 58.0, "merge completes")),
 )
 
-NETWORK_CONFIGS = {config.name: config for config in (MINIMAL_MERGE, HIGHWAY_MERGE_V2)}
+HIGHWAY_MERGE_V3 = MergeNetworkConfig(
+    name="highway_merge_v3",
+    network_path=SUMO_DIR / "network" / "highway_merge_v3.net.xml",
+    main_route_edges=("main_upstream", "main_merge", "downstream"),
+    ramp_route_edges=("ramp_upstream", "main_merge", "downstream"),
+    main_monitor_lane="main_merge_0",
+    ramp_monitor_lane="ramp_upstream_0",
+    downstream_edge="downstream",
+    merge_completion_edges=("downstream",),
+    display_name="Highway merge v3 (two-lane downstream)",
+    merge_markers=((500.0, 58.0, "ramp joins / three lanes begin"), (1100.0, 58.0, "ramp lane ends / two lanes continue")),
+)
+
+NETWORK_CONFIGS = {config.name: config for config in (MINIMAL_MERGE, HIGHWAY_MERGE_V2, HIGHWAY_MERGE_V3)}
