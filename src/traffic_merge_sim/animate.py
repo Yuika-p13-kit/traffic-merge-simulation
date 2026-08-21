@@ -16,7 +16,7 @@ from matplotlib.lines import Line2D
 from .network_config import MINIMAL_MERGE, NETWORK_CONFIGS, MergeNetworkConfig
 from .paths import GENERATED_OUTPUT_DIR
 from .sumo_runner import run_single_case
-from .visualize import FCDTimestep, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
+from .visualize import FIGURE_SIZE, FCDTimestep, draw_roads, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
 
 SUPPORTED_FORMATS = ("mp4", "gif")
 COLOURS = {"main": "#2563eb", "side": "#dc2626", "other": "#6b7280"}
@@ -60,22 +60,19 @@ def save_animation(network: MergeNetworkConfig, timesteps: list[FCDTimestep], ou
     x_values, y_values = zip(*all_points)
     x_margin = max(40.0, (max(x_values) - min(x_values)) * 0.04)
     y_margin = max(40.0, (max(y_values) - min(y_values)) * 0.12)
-    figure, axis = plt.subplots(figsize=(12, 4.5), constrained_layout=True)
-    for shape in lane_shapes:
-        lane_x, lane_y = zip(*shape)
-        axis.plot(lane_x, lane_y, color="#4b5563", linewidth=5, solid_capstyle="round", zorder=1)
-        axis.plot(lane_x, lane_y, color="#d1d5db", linewidth=2.3, solid_capstyle="round", zorder=2)
+    figure, axis = plt.subplots(figsize=FIGURE_SIZE, constrained_layout=True)
+    draw_roads(axis, lane_shapes)
     for x, y, label in network.merge_markers:
         axis.axvline(x, color="#111827", linestyle="--", linewidth=1, alpha=0.65, zorder=0)
         axis.text(x, y, label, ha="center", va="bottom", fontsize=9)
     axis.set(xlim=(min(x_values) - x_margin, max(x_values) + x_margin), ylim=(min(y_values) - y_margin, max(y_values) + y_margin), xlabel="x (m)", ylabel="y (m)")
-    axis.set_aspect("equal", adjustable="box")
+    axis.set_aspect("auto")
     axis.grid(False)
     axis.legend(handles=[
         Line2D([0], [0], marker="o", color="w", label="mainline", markerfacecolor=COLOURS["main"], markersize=8),
         Line2D([0], [0], marker="o", color="w", label="ramp", markerfacecolor=COLOURS["side"], markersize=8),
     ], loc="upper right")
-    artists = {stream: axis.scatter([], [], c=COLOURS[stream], s=52, edgecolors="white", linewidths=0.7, zorder=3) for stream in COLOURS}
+    artists = {stream: axis.scatter([], [], c=COLOURS[stream], s=52, edgecolors="white", linewidths=0.7, zorder=4) for stream in COLOURS}
     title = axis.set_title("")
 
     def update(frame_index: int):

@@ -1,7 +1,20 @@
 from pathlib import Path
 
 from traffic_merge_sim.network_config import HIGHWAY_MERGE_V2
-from traffic_merge_sim.visualize import build_parser, read_fcd_timestep, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
+import matplotlib.pyplot as plt
+
+from traffic_merge_sim.visualize import (
+    LANE_GUIDE_WIDTH,
+    FIGURE_SIZE,
+    ROAD_EDGE_WIDTH,
+    ROAD_SURFACE_WIDTH,
+    build_parser,
+    draw_roads,
+    read_fcd_timestep,
+    read_fcd_timesteps,
+    read_network_lane_shapes,
+    vehicle_stream,
+)
 
 
 def test_read_network_lane_shapes_excludes_internal_edges() -> None:
@@ -9,6 +22,19 @@ def test_read_network_lane_shapes_excludes_internal_edges() -> None:
 
     assert len(shapes) == 3
     assert shapes[0][0] == (-0.0, -1.6)
+
+
+def test_draw_roads_uses_wide_road_surface_and_lane_guides() -> None:
+    figure, axis = plt.subplots()
+
+    draw_roads(axis, [[(0, 0), (10, 0)]])
+
+    assert [line.get_linewidth() for line in axis.lines] == [ROAD_EDGE_WIDTH, ROAD_SURFACE_WIDTH, LANE_GUIDE_WIDTH]
+    plt.close(figure)
+
+
+def test_visualization_uses_tall_figure_for_lane_separation() -> None:
+    assert FIGURE_SIZE[1] > FIGURE_SIZE[0] / 2
 
 
 def test_read_fcd_timestep_selects_nearest_time(tmp_path: Path) -> None:
