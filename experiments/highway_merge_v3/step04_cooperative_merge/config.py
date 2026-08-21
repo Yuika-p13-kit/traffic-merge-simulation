@@ -1,0 +1,19 @@
+"""Initial limited-intervention settings for highway_merge_v3 Step 4."""
+
+DEFAULT_TOTAL_RATES = [3950]
+DEFAULT_DEMAND_RATIOS = ["1:2"]
+DEFAULT_STRATEGIES = ["uncontrolled", "cooperative_limited"]
+DEFAULT_SEEDS = [7, 42, 99, 123, 2026]
+DEFAULT_DURATION_S = 1800.0
+DEFAULT_CLEARANCE_TIME_S = 600.0
+
+# Distances are upstream from the end of the 600 m parallel merge section.
+RAMP_ACTIVATION_DISTANCE_M = 180.0
+RAMP_WAIT_THRESHOLD_S = 3.0
+MAIN_MIN_DISTANCE_M = 80.0
+MAIN_CONTROL_DISTANCE_M = 260.0
+MIN_CONFLICT_ETA_S = 3.0
+MAX_CONFLICT_ETA_S = 10.0
+COOPERATIVE_SPEED_M_S = 23.5
+MAX_INTERVENTION_S = 7.0
+COOLDOWN_S = 8.0
