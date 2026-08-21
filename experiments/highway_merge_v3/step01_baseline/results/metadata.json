@@ -1,0 +1,28 @@
+{
+  "experiment_id": "highway_merge_v3_step01_uncontrolled_baseline",
+  "network": "highway_merge_v3",
+  "script": "experiments/highway_merge_v3/step01_baseline/run.py",
+  "raw_csv": "baseline_raw.csv",
+  "summary_csv": "baseline_summary.csv",
+  "main_rates_veh_h": [
+    600,
+    1200,
+    1800
+  ],
+  "ramp_rates_veh_h": [
+    200,
+    600,
+    1000
+  ],
+  "seeds": [
+    7,
+    42,
+    99
+  ],
+  "demand_duration_s": 120.0,
+  "clearance_time_s": 180.0,
+  "acceptance": {
+    "recovery": "all loaded vehicles arrive by the end of clearance",
+    "simulation_integrity": "no collisions and no teleports"
+  }
+}
