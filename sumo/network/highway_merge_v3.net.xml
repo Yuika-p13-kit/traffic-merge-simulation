@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-08-21T06:56:09.011079+09:00 by Eclipse SUMO netconvert 1.27.1
+<!-- generated on 2026-08-21T10:02:10.959948+09:00 by Eclipse SUMO netconvert 1.27.1
 <netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -12,14 +12,14 @@
         <output-file value="sumo/network/highway_merge_v3.net.xml"/>
     </output>
 
-    <report>
-        <no-warnings value="true"/>
-    </report>
+    <junctions>
+        <junctions.limit-turn-speed value="27.78"/>
+    </junctions>
 
 </netconvertConfiguration>
 -->
 
-<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="27.78" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
 
     <location netOffset="0.00,260.00" convBoundary="0.00,0.00,2100.00,260.00" origBoundary="0.00,-260.00,2100.00,0.00" projParameter="!"/>
 
@@ -28,7 +28,7 @@
         <lane id=":merge_end_0_1" index="1" speed="27.78" length="8.00" shape="1096.00,258.40 1104.00,258.40"/>
     </edge>
     <edge id=":merge_start_0" function="internal">
-        <lane id=":merge_start_0_0" index="0" speed="9.94" length="3.74" shape="486.41,251.13 487.39,251.62 488.11,251.88 488.87,251.98 489.97,252.00"/>
+        <lane id=":merge_start_0_0" index="0" speed="22.34" length="3.74" shape="486.41,251.13 487.39,251.62 488.11,251.88 488.87,251.98 489.97,252.00"/>
     </edge>
     <edge id=":merge_start_1" function="internal">
         <lane id=":merge_start_1_0" index="0" speed="28.89" length="3.78" shape="486.19,255.20 489.97,255.20"/>

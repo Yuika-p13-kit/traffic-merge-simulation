@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+    <input>
+        <node-files value="highway_merge_v3.nod.xml"/>
+        <edge-files value="highway_merge_v3.edg.xml"/>
+    </input>
+    <output>
+        <output-file value="highway_merge_v3.net.xml"/>
+    </output>
+    <junctions.limit-turn-speed value="27.78"/>
+</configuration>
