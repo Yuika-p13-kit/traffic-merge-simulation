@@ -67,7 +67,7 @@ PYTHONPATH=src uv run python -m traffic_merge_sim.animate --help
 - ネットワーク設定と監視区間: `src/traffic_merge_sim/network_config.py`
 - 無制御ケースのPython入口: `traffic_merge_sim.highway_merge.run_highway_v3_single_case`
 
-Step 1の無制御ベースラインを完了し、次にStep 2で容量境界を測定する。Step 3以降の需要配分比較・制御実験は、その後に本系列専用として追加する。
+Step 1〜2 は完了し、Step 3で需要配分を比較する。Step 4〜6の制御実験は、その後に本系列専用として追加する。
 
 ## 実行方法
 
@@ -105,7 +105,7 @@ FCD出力を使い、道路形状と車両移動をMP4（既定）またはGIF�
 
 ```bash
 PYTHONPATH=src uv run python -m traffic_merge_sim.animate \
-  --network highway_merge_v3 --main-rate 1800 --side-rate 1000 \
+  --network highway_merge_v3 --main-rate 1800 --side-rate 2150 \
   --duration 120 --start-time 30 --end-time 90 --fps 10
 ```
 
@@ -119,7 +119,15 @@ uv run python experiments/highway_merge_v3/step01_baseline/run.py
 
 この実験は主線・ランプ需要の初期範囲で、流出完了・衝突・テレポートを確認する。結果は `experiments/highway_merge_v3/step01_baseline/results/` に保存する。
 
-### 4. 旧 `minimal_merge` 系列の再現用スイープ
+### 4. v3 Step 2: 無制御時の容量境界
+
+```bash
+uv run python experiments/highway_merge_v3/step02_throughput/run.py
+```
+
+主線1,800 veh/hを固定し、ランプ需要を増やして、クリアランス終了後の未完了車両が残る境界を測定する。結果は `experiments/highway_merge_v3/step02_throughput/results/` に保存する。
+
+### 5. 旧 `minimal_merge` 系列の再現用スイープ
 
 ```bash
 uv run python experiments/step01_baseline/run.py \

@@ -1,0 +1,35 @@
+{
+  "experiment_id": "highway_merge_v3_step02_capacity_boundary",
+  "network": "highway_merge_v3",
+  "script": "experiments/highway_merge_v3/step02_throughput/run.py",
+  "raw_csv": "throughput_raw.csv",
+  "summary_csv": "throughput_summary.csv",
+  "main_rates_veh_h": [
+    1800
+  ],
+  "ramp_rates_veh_h": [
+    2000,
+    2050,
+    2100,
+    2150,
+    2200,
+    2250,
+    2300,
+    2350,
+    2400
+  ],
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "classification": {
+    "recovered": "all loaded vehicles arrive by the end of the clearance period",
+    "breakdown": "one or more loaded vehicles remain unfinished after clearance",
+    "aggregation": "majority over seeds; ties use breakdown"
+  }
+}
