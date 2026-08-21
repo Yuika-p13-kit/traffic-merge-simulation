@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 from traffic_merge_sim.visualize import (
     LANE_GUIDE_WIDTH,
+    FIGURE_SIZE,
     ROAD_EDGE_WIDTH,
     ROAD_SURFACE_WIDTH,
     build_parser,
@@ -30,6 +31,10 @@ def test_draw_roads_uses_wide_road_surface_and_lane_guides() -> None:
 
     assert [line.get_linewidth() for line in axis.lines] == [ROAD_EDGE_WIDTH, ROAD_SURFACE_WIDTH, LANE_GUIDE_WIDTH]
     plt.close(figure)
+
+
+def test_visualization_uses_tall_figure_for_lane_separation() -> None:
+    assert FIGURE_SIZE[1] > FIGURE_SIZE[0] / 2
 
 
 def test_read_fcd_timestep_selects_nearest_time(tmp_path: Path) -> None:

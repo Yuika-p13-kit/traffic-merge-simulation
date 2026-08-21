@@ -16,7 +16,7 @@ from matplotlib.lines import Line2D
 from .network_config import MINIMAL_MERGE, NETWORK_CONFIGS, MergeNetworkConfig
 from .paths import GENERATED_OUTPUT_DIR
 from .sumo_runner import run_single_case
-from .visualize import FCDTimestep, draw_roads, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
+from .visualize import FIGURE_SIZE, FCDTimestep, draw_roads, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
 
 SUPPORTED_FORMATS = ("mp4", "gif")
 COLOURS = {"main": "#2563eb", "side": "#dc2626", "other": "#6b7280"}
@@ -60,7 +60,7 @@ def save_animation(network: MergeNetworkConfig, timesteps: list[FCDTimestep], ou
     x_values, y_values = zip(*all_points)
     x_margin = max(40.0, (max(x_values) - min(x_values)) * 0.04)
     y_margin = max(40.0, (max(y_values) - min(y_values)) * 0.12)
-    figure, axis = plt.subplots(figsize=(12, 4.5), constrained_layout=True)
+    figure, axis = plt.subplots(figsize=FIGURE_SIZE, constrained_layout=True)
     draw_roads(axis, lane_shapes)
     for x, y, label in network.merge_markers:
         axis.axvline(x, color="#111827", linestyle="--", linewidth=1, alpha=0.65, zorder=0)

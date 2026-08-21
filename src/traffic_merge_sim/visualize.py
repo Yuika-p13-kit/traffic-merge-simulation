@@ -20,6 +20,7 @@ from .sumo_runner import run_single_case
 ROAD_EDGE_WIDTH = 18
 ROAD_SURFACE_WIDTH = 13
 LANE_GUIDE_WIDTH = 1.2
+FIGURE_SIZE = (12, 8)
 
 
 @dataclass(frozen=True)
@@ -102,7 +103,7 @@ def plot_snapshot(
 ) -> float:
     """Save a static map of the nearest FCD timestep and return its time."""
     actual_time_s, vehicles = read_fcd_timestep(fcd_path, requested_time_s)
-    figure, axis = plt.subplots(figsize=(12, 4.5), constrained_layout=True)
+    figure, axis = plt.subplots(figsize=FIGURE_SIZE, constrained_layout=True)
     lane_shapes = read_network_lane_shapes(network.network_path)
     draw_roads(axis, lane_shapes)
 
