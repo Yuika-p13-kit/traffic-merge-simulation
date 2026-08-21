@@ -96,7 +96,14 @@ def run_limited_case(main_rate: int, ramp_rate: int, duration: float, clearance:
             traci.simulationStep()
             now_s = float(traci.simulation.getTime())
             ids = set(traci.vehicle.getIDList())
-            target_completed = bool(controller.target_ramp_vehicle and controller.target_ramp_vehicle not in ids)
+            ramp_lane_ids = set(traci.lane.getLastStepVehicleIDs("main_merge_0"))
+            # A ramp vehicle has completed the relevant merge manoeuvre once it
+            # leaves its dedicated lane; waiting for downstream arrival kept
+            # the advisory active long after its purpose had ended.
+            target_completed = bool(
+                controller.target_ramp_vehicle
+                and controller.target_ramp_vehicle not in ramp_lane_ids
+            )
             released = controller.observe(now_s, target_completed, bool(controller.active_main_vehicle in ids))
             if released and released in ids:
                 traci.vehicle.setSpeed(released, -1)

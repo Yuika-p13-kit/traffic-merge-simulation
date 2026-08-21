@@ -51,3 +51,12 @@ def test_controller_releases_and_cools_down() -> None:
     assert subject.observe(12, True, True) == "main_flow.0"
     assert subject.successful_releases == 1
     assert subject.select_candidate(15, [controller.VehicleState("side_flow.1", 80, 1, 4)], [controller.VehicleState("main_flow.1", 160, 25)]) is None
+
+
+def test_controller_counts_lane_exit_as_a_successful_release() -> None:
+    settings = controller.CooperativeSettings(606, 0, 80, 260, 3, 10, 23.5, 7, 8)
+    subject = controller.LimitedCooperativeController(settings, active_main_vehicle="main_flow.0", target_ramp_vehicle="side_flow.0", intervention_started_s=10)
+
+    assert subject.observe(11, True, True) == "main_flow.0"
+    assert subject.timed_out_interventions == 0
+    assert subject.successful_releases == 1
