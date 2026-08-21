@@ -15,6 +15,9 @@ Python と Eclipse SUMO を使った車線合流（merge）シミュレーショ
 
 - 詳細なプロジェクト概要: `PROJECT_OVERVIEW.md`
 - 初期研究の終了レポート: `docs/research_closure_2026-08-19.md`
+- v3 Step 1 Qiita原稿: `docs/qiita_highway_merge_v3_step01.md`
+- v3 Step 2 Qiita原稿: `docs/qiita_highway_merge_v3_step02.md`
+- v3 Step 3 Qiita原稿: `docs/qiita_highway_merge_v3_step03.md`
 
 ## 前提条件
 
