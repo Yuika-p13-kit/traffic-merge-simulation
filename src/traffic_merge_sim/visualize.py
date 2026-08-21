@@ -26,6 +26,14 @@ class VehicleState:
     speed_m_s: float
 
 
+@dataclass(frozen=True)
+class FCDTimestep:
+    """Vehicle states recorded for one simulation timestep."""
+
+    time_s: float
+    vehicles: list[VehicleState]
+
+
 def read_network_lane_shapes(network_path: Path) -> list[list[tuple[float, float]]]:
     """Return drawable (non-internal) lane centre-lines from a SUMO network."""
     root = ET.parse(network_path).getroot()
@@ -42,19 +50,30 @@ def read_network_lane_shapes(network_path: Path) -> list[list[tuple[float, float
 
 def read_fcd_timestep(fcd_path: Path, requested_time_s: float) -> tuple[float, list[VehicleState]]:
     """Read the FCD timestep nearest to ``requested_time_s``."""
+    timesteps = read_fcd_timesteps(fcd_path)
+    timestep = min(timesteps, key=lambda item: abs(item.time_s - requested_time_s))
+    return timestep.time_s, timestep.vehicles
+
+
+def read_fcd_timesteps(fcd_path: Path) -> list[FCDTimestep]:
+    """Read every FCD timestep in chronological order."""
     root = ET.parse(fcd_path).getroot()
-    timesteps = root.findall("timestep")
+    timesteps = [
+        FCDTimestep(
+            time_s=float(timestep.attrib["time"]),
+            vehicles=[
+                VehicleState(
+                    vehicle_id=vehicle.attrib["id"], x=float(vehicle.attrib["x"]), y=float(vehicle.attrib["y"]),
+                    speed_m_s=float(vehicle.attrib["speed"]),
+                )
+                for vehicle in timestep.findall("vehicle")
+            ],
+        )
+        for timestep in root.findall("timestep")
+    ]
     if not timesteps:
         raise ValueError(f"No timesteps found in FCD output: {fcd_path}")
-    timestep = min(timesteps, key=lambda item: abs(float(item.get("time", "0")) - requested_time_s))
-    vehicles = [
-        VehicleState(
-            vehicle_id=vehicle.attrib["id"], x=float(vehicle.attrib["x"]), y=float(vehicle.attrib["y"]),
-            speed_m_s=float(vehicle.attrib["speed"]),
-        )
-        for vehicle in timestep.findall("vehicle")
-    ]
-    return float(timestep.attrib["time"]), vehicles
+    return timesteps
 
 
 def vehicle_stream(vehicle_id: str) -> str:

@@ -85,6 +85,18 @@ uv run python -m traffic_merge_sim.visualize \
 
 既定では、FCD中間データとPNGを `sumo/output/generated/visualization/` に生成します。このディレクトリはGit管理対象外なので、同じコマンドでいつでも再生成できます。`--output results/snapshot.png` のようにPNGの保存先を指定することもできます。
 
+### 合流状態のアニメーション可視化
+
+FCD出力を使い、道路形状と車両移動をMP4（既定）またはGIFとして保存できます。主線車両は青、ランプ車両は赤で表示します。
+
+```bash
+uv run python -m traffic_merge_sim.animate \
+  --network highway_merge_v2 --main-rate 200 --side-rate 820 \
+  --duration 120 --start-time 30 --end-time 90 --fps 10
+```
+
+GIFを作成するには `--format gif` を指定します。FCDの全時刻を使う代わりに間引く場合は `--frame-step 2` のように指定できます。既定では出力を `sumo/output/generated/visualization/<network>/` に保存します。`--output results/merge.gif --format gif` のように明示的な保存先も指定できます。
+
 ### 3. 公開用の無制御ベースラインスイープ
 
 ```bash
