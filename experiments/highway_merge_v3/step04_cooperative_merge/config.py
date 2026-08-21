@@ -9,7 +9,9 @@ DEFAULT_CLEARANCE_TIME_S = 600.0
 
 # Distances are upstream from the end of the 600 m parallel merge section.
 RAMP_ACTIVATION_DISTANCE_M = 180.0
-RAMP_WAIT_THRESHOLD_S = 3.0
+# The v3 bottleneck first appears as upstream insertion delay, so a moving ramp
+# vehicle near the lane drop is the actionable signal rather than stopped time.
+RAMP_WAIT_THRESHOLD_S = 0.0
 MAIN_MIN_DISTANCE_M = 80.0
 MAIN_CONTROL_DISTANCE_M = 260.0
 MIN_CONFLICT_ETA_S = 3.0

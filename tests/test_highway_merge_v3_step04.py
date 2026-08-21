@@ -22,6 +22,17 @@ def test_controller_selects_only_a_waiting_ramp_conflict() -> None:
     assert subject.interventions == 1
 
 
+def test_controller_can_use_a_moving_ramp_vehicle_when_threshold_is_zero() -> None:
+    settings = controller.CooperativeSettings(180, 0, 80, 260, 3, 10, 23.5, 7, 8)
+    subject = controller.LimitedCooperativeController(settings)
+
+    assert subject.select_candidate(
+        10,
+        [controller.VehicleState("side_flow.0", 100, 20, 0)],
+        [controller.VehicleState("main_flow.0", 160, 25)],
+    ) == "main_flow.0"
+
+
 def test_controller_releases_and_cools_down() -> None:
     settings = controller.CooperativeSettings(180, 3, 80, 260, 3, 10, 23.5, 7, 8)
     subject = controller.LimitedCooperativeController(settings, active_main_vehicle="main_flow.0", target_ramp_vehicle="side_flow.0", intervention_started_s=10)
