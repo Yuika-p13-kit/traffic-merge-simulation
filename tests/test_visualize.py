@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from traffic_merge_sim.network_config import HIGHWAY_MERGE_V2
-from traffic_merge_sim.visualize import build_parser, read_fcd_timestep, read_network_lane_shapes, vehicle_stream
+from traffic_merge_sim.visualize import build_parser, read_fcd_timestep, read_fcd_timesteps, read_network_lane_shapes, vehicle_stream
 
 
 def test_read_network_lane_shapes_excludes_internal_edges() -> None:
@@ -24,6 +24,20 @@ def test_read_fcd_timestep_selects_nearest_time(tmp_path: Path) -> None:
     assert time_s == 12
     assert vehicles[0].vehicle_id == "side_flow.0"
     assert vehicles[0].speed_m_s == 6
+
+
+def test_read_fcd_timesteps_returns_all_states_in_order(tmp_path: Path) -> None:
+    fcd_path = tmp_path / "case.fcd.xml"
+    fcd_path.write_text(
+        '<fcd-export><timestep time="2"><vehicle id="main_flow.0" x="1" y="2" speed="3"/></timestep>'
+        '<timestep time="3"><vehicle id="side_flow.0" x="4" y="5" speed="6"/></timestep></fcd-export>',
+        encoding="utf-8",
+    )
+
+    timesteps = read_fcd_timesteps(fcd_path)
+
+    assert [step.time_s for step in timesteps] == [2, 3]
+    assert timesteps[1].vehicles[0].vehicle_id == "side_flow.0"
 
 
 def test_vehicle_stream_uses_route_builder_flow_ids() -> None:
