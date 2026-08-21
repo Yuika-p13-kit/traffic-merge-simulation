@@ -6,7 +6,8 @@ import subprocess
 from pathlib import Path
 
 from .metrics import classify_state, estimate_generated_vehicles, summarize_step_series, summarize_tripinfo
-from .paths import GENERATED_OUTPUT_DIR, NETWORK_PATH
+from .network_config import MINIMAL_MERGE, MergeNetworkConfig
+from .paths import GENERATED_OUTPUT_DIR
 from .route_builder import build_case_route_file
 
 DEFAULT_SUMO_HOME = Path("/Library/Frameworks/EclipseSUMO.framework/Versions/Current/EclipseSUMO")
@@ -27,6 +28,7 @@ def run_single_case(
     duration: float | None = None, seed: int | None = None,
     clearance_time: float = 0.0,
     fcd_output_path: Path | None = None,
+    network: MergeNetworkConfig = MINIMAL_MERGE,
 ) -> dict[str, float | int | str | None]:
     main_veh_h = q_main if q_main is not None else main_veh_h
     side_veh_h = q_side if q_side is not None else side_veh_h
@@ -38,18 +40,20 @@ def run_single_case(
 
     GENERATED_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     seed_suffix = "none" if seed is None else str(seed)
-    case_name = f"main_{main_veh_h}_side_{side_veh_h}_seed_{seed_suffix}"
-    route_path = GENERATED_OUTPUT_DIR / f"{case_name}.rou.xml"
-    tripinfo_path = GENERATED_OUTPUT_DIR / f"{case_name}.tripinfo.xml"
-    summary_path = GENERATED_OUTPUT_DIR / f"{case_name}.summary.xml"
+    case_name = f"{network.name}_main_{main_veh_h}_side_{side_veh_h}_seed_{seed_suffix}"
+    output_dir = GENERATED_OUTPUT_DIR / network.name
+    output_dir.mkdir(parents=True, exist_ok=True)
+    route_path = output_dir / f"{case_name}.rou.xml"
+    tripinfo_path = output_dir / f"{case_name}.tripinfo.xml"
+    summary_path = output_dir / f"{case_name}.summary.xml"
     for path in (route_path, tripinfo_path, summary_path, fcd_output_path):
         if path is None:
             continue
         path.unlink(missing_ok=True)
 
-    build_case_route_file(route_path, main_veh_h, side_veh_h, demand_duration)
+    build_case_route_file(route_path, main_veh_h, side_veh_h, demand_duration, network=network)
     command = [
-        locate_sumo_binary(), "-n", str(NETWORK_PATH), "-r", str(route_path),
+        locate_sumo_binary(), "-n", str(network.network_path), "-r", str(route_path),
         "--no-step-log", "--quit-on-end", "--tripinfo-output", str(tripinfo_path),
         "--summary-output", str(summary_path), "--xml-validation", "never",
         "--time-to-teleport", "-1", "--end", str(simulation_end),

@@ -1,0 +1,23 @@
+{
+  "experiment_id": "highway_merge_v2_step01_uncontrolled_baseline",
+  "network": "highway_merge_v2",
+  "script": "experiments/highway_merge_v2/step01_baseline/run.py",
+  "csv": "experiments/highway_merge_v2/step01_baseline/results/baseline_raw.csv",
+  "main_rates_veh_h": [
+    200,
+    400,
+    600
+  ],
+  "ramp_rates_veh_h": [
+    100,
+    200,
+    300
+  ],
+  "seeds": [
+    7,
+    42,
+    99
+  ],
+  "demand_duration_s": 120.0,
+  "clearance_time_s": 180.0
+}

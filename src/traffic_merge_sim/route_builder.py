@@ -1,7 +1,12 @@
 from pathlib import Path
 
+from .network_config import MINIMAL_MERGE, MergeNetworkConfig
 
-def build_case_route_file(route_path: Path, main_veh_h: int, side_veh_h: int, end_time: float = 1200.0) -> None:
+
+def build_case_route_file(
+    route_path: Path, main_veh_h: int, side_veh_h: int, end_time: float = 1200.0,
+    *, network: MergeNetworkConfig = MINIMAL_MERGE,
+) -> None:
     route_path.parent.mkdir(parents=True, exist_ok=True)
 
     def flow_xml(flow_id: str, route_id: str, veh_h: int) -> str:
@@ -16,9 +21,10 @@ def build_case_route_file(route_path: Path, main_veh_h: int, side_veh_h: int, en
 <routes xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
         xsi:noNamespaceSchemaLocation=\"http://sumo.dlr.de/xsd/routes_file.xsd\">
     <vType id=\"car\" accel=\"2.6\" decel=\"4.5\" length=\"5.0\" maxSpeed=\"30.0\" sigma=\"0.5\"/>
-    <route id=\"main_route\" edges=\"main_in out\"/>
-    <route id=\"side_route\" edges=\"side_in out\"/>
+    <route id=\"main_route\" edges=\"%s\"/>
+    <route id=\"side_route\" edges=\"%s\"/>
 """
+    xml %= (" ".join(network.main_route_edges), " ".join(network.ramp_route_edges))
     xml += flow_xml("main_flow", "main_route", main_veh_h) + "\n"
     xml += flow_xml("side_flow", "side_route", side_veh_h) + "\n</routes>\n"
     route_path.write_text(xml, encoding="utf-8")

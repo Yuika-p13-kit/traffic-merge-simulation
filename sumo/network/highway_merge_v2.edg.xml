@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
+    <edge id="main_upstream" from="main_source" to="merge_start" priority="2" numLanes="2" speed="30.00"/>
+    <edge id="main_merge" from="merge_start" to="merge_end" priority="2" numLanes="2" speed="27.78"/>
+    <edge id="ramp_upstream" from="ramp_source" to="ramp_start" priority="1" numLanes="1" speed="22.22"/>
+    <edge id="ramp_merge" from="ramp_start" to="merge_end" priority="1" numLanes="1" speed="22.22"/>
+    <edge id="downstream" from="merge_end" to="sink" priority="1" numLanes="1" speed="27.78"/>
+</edges>
