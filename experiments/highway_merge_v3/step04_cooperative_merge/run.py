@@ -17,7 +17,7 @@ for path in (ROOT, ROOT / "src", STEP_DIR):
 from config import (
     COOLDOWN_S, COOPERATIVE_SPEED_M_S, DEFAULT_CLEARANCE_TIME_S, DEFAULT_DEMAND_RATIOS,
     DEFAULT_DURATION_S, DEFAULT_SEEDS, DEFAULT_STRATEGIES, DEFAULT_TOTAL_RATES,
-    MAIN_CONTROL_DISTANCE_M, MAIN_MIN_DISTANCE_M, MAX_CONFLICT_ETA_S, MAX_INTERVENTION_S, MAX_PAIR_ETA_GAP_S,
+    MAIN_CONTROL_DISTANCE_M, MAIN_CONTROL_LANE_ID, MAIN_MIN_DISTANCE_M, MAX_CONFLICT_ETA_S, MAX_INTERVENTION_S, MAX_PAIR_ETA_GAP_S,
     MIN_CONFLICT_ETA_S, RAMP_ACTIVATION_DISTANCE_M, RAMP_WAIT_THRESHOLD_S,
 )
 from controller import CooperativeSettings, LimitedCooperativeController, VehicleState
@@ -102,7 +102,7 @@ def run_limited_case(main_rate: int, ramp_rate: int, duration: float, clearance:
             released = controller.observe(now_s, target_completed, bool(controller.active_main_vehicle in ids))
             if released and released in ids:
                 traci.vehicle.setSpeed(released, -1)
-            selected = controller.select_candidate(now_s, lane_states(traci, "main_merge_0", True), lane_states(traci, "main_merge_1", False))
+            selected = controller.select_candidate(now_s, lane_states(traci, "main_merge_0", True), lane_states(traci, MAIN_CONTROL_LANE_ID, False))
             if selected and selected in ids:
                 traci.vehicle.setSpeed(selected, SETTINGS.cooperative_speed_m_s)
                 yielded.add(selected)
