@@ -154,6 +154,16 @@ PYTHONPATH=src uv run python experiments/highway_merge_v3/step03_demand_ratio/ru
 
 Step 2で得た境界付近の総需要3,950 / 4,000 veh/hを固定し、主線:ランプ需要比1:1〜1:5を比較する。結果は `experiments/highway_merge_v3/step03_demand_ratio/results/` に保存する。
 
+### v3 Step 5: 完全版TTS評価
+
+Step 4の改善2を固定し、無制御との同一seed差で完全版TTS、主線・ランプ別負担、95%信頼区間を出力します。
+
+```bash
+uv run -- python experiments/highway_merge_v3/step05_evaluation/run.py
+```
+
+結果CSVとSVGは `experiments/highway_merge_v3/step05_evaluation/results/` に保存されます。
+
 ### 6. 旧 `minimal_merge` 系列の再現用スイープ
 
 ```bash

@@ -1,0 +1,3 @@
+strategy,runs,mean_total_time_spent_s,mean_network_time_spent_s,mean_insertion_wait_time_s,mean_main_total_time_spent_s,mean_ramp_total_time_spent_s,mean_unfinished_vehicles,mean_throughput_veh_h,breakdown_runs,collision_runs,teleport_runs,mean_interventions
+uncontrolled,5,806731.8,159534.4,647197.4,53513.8,753218.0,257.6,3436.8,5,0,0,0.0
+cooperative_limited,5,802687.4,159888.8,642798.6,53537.0,749150.4,252.4,3447.2000000000003,5,0,0,139.2

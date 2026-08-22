@@ -1,0 +1,15 @@
+{
+  "experiment_id": "highway_merge_v3_step05_evaluation",
+  "source_candidate": "step04 improvement_02",
+  "network": "highway_merge_v3",
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "tts_definition": "network occupancy integral + pending insertion vehicle integral"
+}
