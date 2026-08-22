@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
-from traffic_merge_sim.network_config import HIGHWAY_MERGE_V2
+from traffic_merge_sim.network_config import HIGHWAY_MERGE_V2, HIGHWAY_MERGE_V3
 from traffic_merge_sim.route_builder import build_case_route_file
 
 
@@ -25,3 +26,15 @@ def test_highway_route_builder_uses_only_highway_network_ids(tmp_path: Path) -> 
     assert 'edges="main_upstream main_merge downstream"' in contents
     assert 'edges="ramp_upstream ramp_merge downstream"' in contents
     assert "main_in" not in contents
+
+
+def test_highway_v3_has_a_three_lane_merge_and_two_lane_downstream() -> None:
+    root = ET.parse(HIGHWAY_MERGE_V3.network_path).getroot()
+    edges = {edge.attrib["id"]: edge for edge in root.findall("edge") if "id" in edge.attrib}
+    lanes = {lane.attrib["id"]: lane for lane in root.findall(".//lane") if "id" in lane.attrib}
+
+    assert len(edges["main_upstream"].findall("lane")) == 2
+    assert len(edges["main_merge"].findall("lane")) == 3
+    assert len(edges["downstream"].findall("lane")) == 2
+    assert HIGHWAY_MERGE_V3.ramp_route_edges == ("ramp_upstream", "main_merge", "downstream")
+    assert float(lanes[":merge_start_0_0"].attrib["speed"]) >= 22.22

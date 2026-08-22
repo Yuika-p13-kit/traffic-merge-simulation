@@ -1,0 +1,33 @@
+{
+  "experiment_id": "highway_merge_v3_step03_uncontrolled_demand_ratio",
+  "network": "highway_merge_v3",
+  "script": "experiments/highway_merge_v3/step03_demand_ratio/run.py",
+  "raw_csv": "demand_ratio_raw.csv",
+  "summary_csv": "demand_ratio_summary.csv",
+  "total_rates_veh_h": [
+    3950,
+    4000
+  ],
+  "demand_ratios": [
+    "1:1",
+    "1:2",
+    "1:3",
+    "1:4",
+    "1:5"
+  ],
+  "demand_ratio_definition": "mainline demand : ramp demand",
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "classification": {
+    "recovered": "all loaded vehicles arrive by the end of the clearance period",
+    "breakdown": "one or more loaded vehicles remain unfinished after clearance",
+    "aggregation": "majority over seeds; ties use breakdown"
+  }
+}

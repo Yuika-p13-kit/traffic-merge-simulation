@@ -1,0 +1,6 @@
+metric,paired_seeds,mean_paired_delta,ci_95_low,ci_95_high,lower_is_better,interpretation
+total_time_spent_s,5,-4044.4,-15407.908871987285,7319.108871987286,True,uncertain
+network_time_spent_s,5,354.4,-1717.5091410185341,2426.3091410185343,True,uncertain
+insertion_wait_time_s,5,-4398.8,-17745.666381677962,8948.066381677963,True,uncertain
+unfinished_vehicles,5,-5.2,-28.399123514477864,17.999123514477866,True,uncertain
+throughput_veh_h,5,10.400000000000027,-35.99824702895575,56.79824702895581,False,uncertain

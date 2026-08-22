@@ -222,5 +222,8 @@ sumo/output/*
 !sumo/output/archive/
 !sumo/output/archive/**
 
+# Local drafts for external publishing (Qiita etc.); keep outside Git history.
+docs/qiita_drafts/
+
 # others
 .DS_Store

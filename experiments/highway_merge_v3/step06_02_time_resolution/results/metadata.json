@@ -1,0 +1,36 @@
+{
+  "experiment_id": "highway_merge_v3_step06_ramp_metering",
+  "network": "highway_merge_v3",
+  "strategies": [
+    "uncontrolled",
+    "cooperative_limited",
+    "ramp_fixed_1s",
+    "ramp_fixed_1_25s",
+    "ramp_fixed_1_5s"
+  ],
+  "total_rate_veh_h": 3950,
+  "demand_ratio": "1:2",
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "step_length_s": 0.25,
+  "meter_stop_position_m": 400.0,
+  "meter_intervals_s": {
+    "ramp_fixed_1s": 1.0,
+    "ramp_fixed_1_25s": 1.25,
+    "ramp_fixed_1_5s": 1.5
+  },
+  "fcd_output_dir": "sumo/output/generated/trajectories/v3-step06-02",
+  "gif_output": "sumo/output/generated/visualization/v3-step06-02-ramp-fixed-1s.gif",
+  "animation_start_time_s": 0,
+  "animation_end_time_s": 30.0,
+  "animation_frame_step": 1,
+  "animation_fps": 10,
+  "difference_definition": "strategy - uncontrolled for the same seed"
+}

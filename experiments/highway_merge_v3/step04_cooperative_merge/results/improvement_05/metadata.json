@@ -1,0 +1,34 @@
+{
+  "experiment_id": "highway_merge_v3_step04_cooperative",
+  "network": "highway_merge_v3",
+  "strategies": [
+    "cooperative_limited"
+  ],
+  "total_rates_veh_h": [
+    3950
+  ],
+  "demand_ratios": [
+    "1:2"
+  ],
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "demand_duration_s": 1800.0,
+  "clearance_time_s": 600.0,
+  "cooperative_settings": {
+    "ramp_activation_distance_m": 606.0,
+    "ramp_wait_threshold_s": 0.0,
+    "main_min_distance_m": 80.0,
+    "main_control_distance_m": 260.0,
+    "min_conflict_eta_s": 3.0,
+    "max_conflict_eta_s": 10.0,
+    "max_pair_eta_gap_s": 3.0,
+    "cooperative_speed_m_s": 20.0,
+    "max_intervention_s": 7.0,
+    "cooldown_s": 8.0
+  }
+}

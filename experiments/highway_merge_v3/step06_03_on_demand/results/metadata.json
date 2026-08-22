@@ -1,0 +1,28 @@
+{
+  "experiment_id": "highway_merge_v3_step06_03_on_demand",
+  "step_length_s": 0.25,
+  "strategies": [
+    "uncontrolled",
+    "cooperative_limited",
+    "ramp_fixed_1_5s",
+    "ramp_on_demand_1_5s"
+  ],
+  "seeds": [
+    7,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "on_demand_settings": {
+    "interval_s": 1.5,
+    "activation_speed_m_s": 27.0,
+    "recovery_speed_m_s": 29.0,
+    "activation_persistence_s": 3.0,
+    "recovery_persistence_s": 10.0,
+    "min_active_s": 30.0
+  },
+  "fcd_representative_only": true,
+  "animation_frame_step": 1,
+  "animation_fps": 10
+}
