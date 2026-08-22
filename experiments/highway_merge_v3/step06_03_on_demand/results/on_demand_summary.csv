@@ -1,0 +1,5 @@
+strategy,runs,mean_total_time_spent_s,mean_network_time_spent_s,mean_insertion_wait_time_s,mean_main_total_time_spent_s,mean_ramp_total_time_spent_s,mean_unfinished_vehicles,mean_throughput_veh_h,breakdown_runs,collision_runs,teleport_runs,mean_meter_releases,mean_meter_activations,mean_meter_active_share
+cooperative_limited,5,487986.2,179727.6,308258.6,52298.95,435687.25,0.4,3951.2000000000003,1,0,0,0.0,0.0,0.0
+ramp_fixed_1_5s,5,491249.8,179612.85,311636.95,52232.8,439017.0,0.8,3950.3999999999996,1,0,0,1317.0,0.0,0.0
+ramp_on_demand_1_5s,5,494867.4,179834.5,315032.9,52232.35,442635.05,0.0,3952.0,0,0,0,1314.2,1.0,0.9712291666666667
+uncontrolled,5,488444.85,179690.85,308754.0,52271.85,436173.0,0.0,3952.0,0,0,0,0.0,0.0,0.0
