@@ -1,15 +1,16 @@
 from __future__ import annotations
 
-import importlib
+import importlib.util
 import sys
 from pathlib import Path
 
 
 STEP_DIR = Path(__file__).resolve().parents[1] / "experiments/highway_merge_v3/step04_cooperative_merge"
-if str(STEP_DIR) not in sys.path:
-    sys.path.insert(0, str(STEP_DIR))
-
-controller = importlib.import_module("controller")
+SPEC = importlib.util.spec_from_file_location("highway_merge_v3_step04_controller", STEP_DIR / "controller.py")
+assert SPEC and SPEC.loader
+controller = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = controller
+SPEC.loader.exec_module(controller)
 
 
 def test_controller_selects_only_a_waiting_ramp_conflict() -> None:
