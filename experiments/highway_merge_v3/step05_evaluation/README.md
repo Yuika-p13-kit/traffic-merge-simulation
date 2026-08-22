@@ -1,4 +1,4 @@
-# Highway merge v3 — Step 5: 完全版TTSによる評価
+# Highway merge v3 — Step 5: 完全版TTSによる評価（完了）
 
 Step 4で最良だった改善2（並走区間全体を検知し、`main_merge_1`へ23.5 m/sを最大7秒助言）を固定し、無制御と同一seedで比較する。速度助言を再調整するStepではない。
 
@@ -9,3 +9,5 @@ uv run python experiments/highway_merge_v3/step05_evaluation/run.py
 ```
 
 FCD軌跡は既定で `sumo/output/generated/trajectories/v3-step05/` に、各戦略・seedごとの `.fcd.xml` として保存する（Git管理外）。結果は `results/` にCSVとmetadataを保存する。判定は、完全版TTSの同一seed差の95%信頼区間と、安全性（衝突・テレポート0）を併せて行う。
+
+Step 5は2026-08-22に完了した。Step 6では、ここで固定した評価指標と比較対象を使い、Ramp Meteringを検証する。
