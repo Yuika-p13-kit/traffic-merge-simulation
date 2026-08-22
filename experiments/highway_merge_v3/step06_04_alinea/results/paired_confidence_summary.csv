@@ -1,0 +1,16 @@
+strategy,metric,paired_seeds,mean_paired_delta,ci_95_low,ci_95_high,lower_is_better,interpretation
+cooperative_limited,total_time_spent_s,5,-458.65,-8361.828709224596,7444.528709224595,True,uncertain
+cooperative_limited,network_time_spent_s,5,36.75,-251.11347019516035,324.61347019516035,True,uncertain
+cooperative_limited,insertion_wait_time_s,5,-495.4,-8598.020376248942,7607.220376248942,True,uncertain
+cooperative_limited,unfinished_vehicles,5,0.4,-0.7103999999999998,1.5103999999999997,True,uncertain
+cooperative_limited,throughput_veh_h,5,-0.7999999999999652,-3.0207999999998685,1.4207999999999381,False,uncertain
+ramp_alinea,total_time_spent_s,5,178497.65,171899.57594302215,185095.72405697784,True,worsens
+ramp_alinea,network_time_spent_s,5,20017.3,18731.443015963345,21303.156984036654,True,worsens
+ramp_alinea,insertion_wait_time_s,5,158480.35,152494.66963535926,164466.03036464076,True,worsens
+ramp_alinea,unfinished_vehicles,5,135.0,121.259501027983,148.74049897201698,True,worsens
+ramp_alinea,throughput_veh_h,5,-269.99999999999983,-297.48099794403385,-242.5190020559658,False,worsens
+ramp_fixed_1_5s,total_time_spent_s,5,2804.95,-4134.386266218624,9744.286266218623,True,uncertain
+ramp_fixed_1_5s,network_time_spent_s,5,-78.0,-375.87519688285556,219.87519688285556,True,uncertain
+ramp_fixed_1_5s,insertion_wait_time_s,5,2882.95,-3936.678667573172,9702.578667573172,True,uncertain
+ramp_fixed_1_5s,unfinished_vehicles,5,0.8,-1.4207999999999996,3.0207999999999995,True,uncertain
+ramp_fixed_1_5s,throughput_veh_h,5,-1.5999999999999304,-6.041599999999737,2.8415999999998762,False,uncertain
