@@ -15,10 +15,10 @@ class CompleteTTSMetrics:
     loaded: set[str] = field(default_factory=set)
     pending_end: set[str] = field(default_factory=set)
 
-    def observe(self, speeds: dict[str, float], pending: set[str], loaded: set[str], departed: set[str], arrived: set[str], *, within_demand: bool) -> None:
+    def observe(self, speeds: dict[str, float], pending: set[str], loaded: set[str], departed: set[str], arrived: set[str], *, within_demand: bool, step_length_s: float = 1.0) -> None:
         self.loaded.update(loaded); self.pending_end = set(pending)
-        for vehicle in speeds: self.network[_stream(vehicle)] += 1.0
-        for vehicle in pending: self.insertion[_stream(vehicle)] += 1.0
+        for vehicle in speeds: self.network[_stream(vehicle)] += step_length_s
+        for vehicle in pending: self.insertion[_stream(vehicle)] += step_length_s
 
     def result(self) -> dict[str, float | int]:
         result: dict[str, float | int] = {"accounted_loaded_veh": len(self.loaded)}

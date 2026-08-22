@@ -56,7 +56,7 @@ def select_improvement_02(controller: LimitedCooperativeController, now: float, 
     return selected.vehicle_id
 
 
-def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int, fcd_output_dir: Path | None = None) -> dict[str, object]:
+def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int, fcd_output_dir: Path | None = None, step_length_s: float = 1.0) -> dict[str, object]:
     import traci
     output_dir = GENERATED_OUTPUT_DIR / HIGHWAY_MERGE_V3.name
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -66,7 +66,7 @@ def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, cle
     for path in (route, tripinfo, summary, fcd_path):
         if path is not None: path.unlink(missing_ok=True)
     build_case_route_file(route, main_rate, ramp_rate, duration, network=HIGHWAY_MERGE_V3)
-    command = [locate_sumo_binary(), "-n", str(HIGHWAY_MERGE_V3.network_path), "-r", str(route), "--no-step-log", "--quit-on-end", "--tripinfo-output", str(tripinfo), "--summary-output", str(summary), "--xml-validation", "never", "--time-to-teleport", "-1", "--end", str(duration + clearance), "--seed", str(seed)]
+    command = [locate_sumo_binary(), "-n", str(HIGHWAY_MERGE_V3.network_path), "-r", str(route), "--no-step-log", "--quit-on-end", "--tripinfo-output", str(tripinfo), "--summary-output", str(summary), "--xml-validation", "never", "--time-to-teleport", "-1", "--step-length", str(step_length_s), "--end", str(duration + clearance), "--seed", str(seed)]
     if fcd_path is not None:
         fcd_path.parent.mkdir(parents=True, exist_ok=True)
         command.extend(["--fcd-output", str(fcd_path)])
@@ -75,7 +75,7 @@ def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, cle
     try:
         while traci.simulation.getTime() < duration + clearance:
             traci.simulationStep(); now = float(traci.simulation.getTime()); ids = set(traci.vehicle.getIDList())
-            recorder.observe({vehicle: float(traci.vehicle.getSpeed(vehicle)) for vehicle in ids}, set(traci.simulation.getPendingVehicles()), set(traci.simulation.getLoadedIDList()), set(traci.simulation.getDepartedIDList()), set(traci.simulation.getArrivedIDList()), within_demand=now <= duration)
+            recorder.observe({vehicle: float(traci.vehicle.getSpeed(vehicle)) for vehicle in ids}, set(traci.simulation.getPendingVehicles()), set(traci.simulation.getLoadedIDList()), set(traci.simulation.getDepartedIDList()), set(traci.simulation.getArrivedIDList()), within_demand=now <= duration, step_length_s=step_length_s)
             if controller is not None:
                 released = controller.observe(now, bool(controller.target_ramp_vehicle and controller.target_ramp_vehicle not in ids), bool(controller.active_main_vehicle in ids))
                 if released and released in ids: traci.vehicle.setSpeed(released, -1)

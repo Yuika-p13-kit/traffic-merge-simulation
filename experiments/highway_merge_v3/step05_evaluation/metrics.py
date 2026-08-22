@@ -32,7 +32,7 @@ class CompleteTTSMetrics:
     arrived_vehicle_ids: set[str] = field(default_factory=set)
     pending_vehicle_ids_end: set[str] = field(default_factory=set)
 
-    def observe(self, vehicle_speeds: dict[str, float], pending_ids: set[str], loaded_ids: set[str], departed_ids: set[str], arrived_ids: set[str], *, within_demand: bool) -> None:
+    def observe(self, vehicle_speeds: dict[str, float], pending_ids: set[str], loaded_ids: set[str], departed_ids: set[str], arrived_ids: set[str], *, within_demand: bool, step_length_s: float = 1.0) -> None:
         self.loaded_vehicle_ids.update(loaded_ids)
         self.departed_vehicle_ids.update(departed_ids)
         self.arrived_vehicle_ids.update(arrived_ids)
@@ -40,12 +40,12 @@ class CompleteTTSMetrics:
         pending_counts = _counts()
         for vehicle_id, speed in vehicle_speeds.items():
             stream = stream_for_vehicle(vehicle_id)
-            self.network_time_spent_s[stream] += 1.0
+            self.network_time_spent_s[stream] += step_length_s
             if speed < 0.1:
-                self.stopped_time_s[stream] += 1.0
+                self.stopped_time_s[stream] += step_length_s
         for vehicle_id in pending_ids:
             stream = stream_for_vehicle(vehicle_id)
-            self.insertion_wait_time_s[stream] += 1.0
+            self.insertion_wait_time_s[stream] += step_length_s
             pending_counts[stream] += 1
         if within_demand:
             for stream in pending_counts:
