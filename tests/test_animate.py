@@ -13,6 +13,14 @@ def test_animation_defaults_to_mp4() -> None:
     assert args.format == "mp4"
     assert args.fps == 10
     assert args.end_time is None
+    assert args.fcd_input is None
+
+
+def test_animation_accepts_existing_fcd_input() -> None:
+    args = build_parser().parse_args(["--network", "highway_merge_v3", "--fcd-input", "results/case.fcd.xml"])
+
+    assert args.network == "highway_merge_v3"
+    assert args.fcd_input == Path("results/case.fcd.xml")
 
 
 def test_select_timesteps_respects_range_and_sampling() -> None:

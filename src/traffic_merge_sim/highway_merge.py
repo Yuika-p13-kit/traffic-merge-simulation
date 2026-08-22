@@ -26,9 +26,11 @@ def run_highway_single_case(
 def run_highway_v3_single_case(
     main_veh_h: int, ramp_veh_h: int, *, duration: float = 1200.0,
     seed: int | None = None, clearance_time: float = 0.0,
+    fcd_output_path: Path | None = None,
 ) -> dict[str, float | int | str | None]:
     """Run one uncontrolled case for the two-lane-downstream highway model."""
     return run_single_case(
         main_veh_h, ramp_veh_h, duration, seed=seed,
-        clearance_time=clearance_time, network=HIGHWAY_MERGE_V3,
+        clearance_time=clearance_time, fcd_output_path=fcd_output_path,
+        network=HIGHWAY_MERGE_V3,
     )
