@@ -56,15 +56,20 @@ def select_improvement_02(controller: LimitedCooperativeController, now: float, 
     return selected.vehicle_id
 
 
-def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int) -> dict[str, object]:
+def run_case(strategy: str, main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int, fcd_output_dir: Path | None = None) -> dict[str, object]:
     import traci
     output_dir = GENERATED_OUTPUT_DIR / HIGHWAY_MERGE_V3.name
     output_dir.mkdir(parents=True, exist_ok=True)
     prefix = f"v3_step05_{strategy}_main_{main_rate}_ramp_{ramp_rate}_seed_{seed}"
     route, tripinfo, summary = (output_dir / f"{prefix}{suffix}" for suffix in (".rou.xml", ".tripinfo.xml", ".summary.xml"))
-    for path in (route, tripinfo, summary): path.unlink(missing_ok=True)
+    fcd_path = fcd_output_dir / f"{strategy}_main_{main_rate}_ramp_{ramp_rate}_seed_{seed}.fcd.xml" if fcd_output_dir else None
+    for path in (route, tripinfo, summary, fcd_path):
+        if path is not None: path.unlink(missing_ok=True)
     build_case_route_file(route, main_rate, ramp_rate, duration, network=HIGHWAY_MERGE_V3)
     command = [locate_sumo_binary(), "-n", str(HIGHWAY_MERGE_V3.network_path), "-r", str(route), "--no-step-log", "--quit-on-end", "--tripinfo-output", str(tripinfo), "--summary-output", str(summary), "--xml-validation", "never", "--time-to-teleport", "-1", "--end", str(duration + clearance), "--seed", str(seed)]
+    if fcd_path is not None:
+        fcd_path.parent.mkdir(parents=True, exist_ok=True)
+        command.extend(["--fcd-output", str(fcd_path)])
     recorder, controller, yielded = CompleteTTSMetrics(), (LimitedCooperativeController(SETTINGS) if strategy == "cooperative_limited" else None), set()
     traci.start(command)
     try:
@@ -92,21 +97,21 @@ def summarize(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     return output
 
 
-def run(seeds: list[int] = DEFAULT_SEEDS, duration: float = DEFAULT_DURATION_S, clearance: float = DEFAULT_CLEARANCE_TIME_S, output_dir: Path | None = None) -> Path:
+def run(seeds: list[int] = DEFAULT_SEEDS, duration: float = DEFAULT_DURATION_S, clearance: float = DEFAULT_CLEARANCE_TIME_S, output_dir: Path | None = None, fcd_output_dir: Path | None = None) -> Path:
     main_rate, ramp_rate = allocate_demand(DEFAULT_TOTAL_RATES[0], DEFAULT_DEMAND_RATIOS[0]); rows=[]
     for strategy in DEFAULT_STRATEGIES:
         for seed in seeds:
-            row = run_case(strategy, main_rate, ramp_rate, duration, clearance, seed)
+            row = run_case(strategy, main_rate, ramp_rate, duration, clearance, seed, fcd_output_dir)
             row.update(total_demand_veh_h=DEFAULT_TOTAL_RATES[0], demand_ratio=DEFAULT_DEMAND_RATIOS[0]); rows.append(row)
     result_dir=output_dir or STEP_DIR / "results"
     raw=write_rows(result_dir / "evaluation_raw.csv", [{field: row.get(field, 0) for field in RAW_FIELDS} for row in rows], RAW_FIELDS)
     write_rows(result_dir / "evaluation_summary.csv", summarize(rows), SUMMARY_FIELDS)
     write_rows(result_dir / "paired_confidence_summary.csv", paired_summary(rows), PAIRED_FIELDS)
     generate(result_dir / "evaluation_summary.csv", result_dir / "figures" / "complete_tts.svg")
-    write_metadata(result_dir / "metadata.json", {"experiment_id":"highway_merge_v3_step05_evaluation","source_candidate":"step04 improvement_02","network":HIGHWAY_MERGE_V3.name,"seeds":seeds,"demand_duration_s":duration,"clearance_time_s":clearance,"tts_definition":"network occupancy integral + pending insertion vehicle integral"})
+    write_metadata(result_dir / "metadata.json", {"experiment_id":"highway_merge_v3_step05_evaluation","source_candidate":"step04 improvement_02","network":HIGHWAY_MERGE_V3.name,"seeds":seeds,"demand_duration_s":duration,"clearance_time_s":clearance,"tts_definition":"network occupancy integral + pending insertion vehicle integral", "fcd_output_dir": str(fcd_output_dir) if fcd_output_dir else None})
     return raw
 
 
 if __name__ == "__main__":
-    parser=argparse.ArgumentParser(); parser.add_argument("--seeds", default=",".join(map(str, DEFAULT_SEEDS))); parser.add_argument("--duration", type=float, default=DEFAULT_DURATION_S); parser.add_argument("--clearance-time", type=float, default=DEFAULT_CLEARANCE_TIME_S); parser.add_argument("--output-dir", type=Path); args=parser.parse_args()
-    print(run([int(x) for x in args.seeds.split(",")], args.duration, args.clearance_time, args.output_dir))
+    parser=argparse.ArgumentParser(); parser.add_argument("--seeds", default=",".join(map(str, DEFAULT_SEEDS))); parser.add_argument("--duration", type=float, default=DEFAULT_DURATION_S); parser.add_argument("--clearance-time", type=float, default=DEFAULT_CLEARANCE_TIME_S); parser.add_argument("--output-dir", type=Path); parser.add_argument("--fcd-output-dir", type=Path, default=GENERATED_OUTPUT_DIR / "trajectories" / "v3-step05"); args=parser.parse_args()
+    print(run([int(x) for x in args.seeds.split(",")], args.duration, args.clearance_time, args.output_dir, args.fcd_output_dir))

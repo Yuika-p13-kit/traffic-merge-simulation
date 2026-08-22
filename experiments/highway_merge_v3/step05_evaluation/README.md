@@ -8,4 +8,4 @@ Step 4で最良だった改善2（並走区間全体を検知し、`main_merge_1
 uv run python experiments/highway_merge_v3/step05_evaluation/run.py
 ```
 
-結果は `results/` にCSVとmetadataを保存する。判定は、完全版TTSの同一seed差の95%信頼区間と、安全性（衝突・テレポート0）を併せて行う。
+FCD軌跡は既定で `sumo/output/generated/trajectories/v3-step05/` に、各戦略・seedごとの `.fcd.xml` として保存する（Git管理外）。結果は `results/` にCSVとmetadataを保存する。判定は、完全版TTSの同一seed差の95%信頼区間と、安全性（衝突・テレポート0）を併せて行う。

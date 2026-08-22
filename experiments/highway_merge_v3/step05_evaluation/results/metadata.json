@@ -11,5 +11,6 @@
   ],
   "demand_duration_s": 1800.0,
   "clearance_time_s": 600.0,
-  "tts_definition": "network occupancy integral + pending insertion vehicle integral"
+  "tts_definition": "network occupancy integral + pending insertion vehicle integral",
+  "fcd_output_dir": "/Users/kitagawayoshihiko/Documents/environment/traffic-merge-simulation/sumo/output/generated/trajectories/v3-step05"
 }
