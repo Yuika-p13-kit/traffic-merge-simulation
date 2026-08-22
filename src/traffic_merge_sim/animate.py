@@ -90,7 +90,7 @@ def save_animation(network: MergeNetworkConfig, timesteps: list[FCDTimestep], ou
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run a merge model and save an FCD animation.")
+    parser = argparse.ArgumentParser(description="Create a merge animation from saved FCD output, or run an uncontrolled case first.")
     parser.add_argument("--network", choices=sorted(NETWORK_CONFIGS), default=MINIMAL_MERGE.name)
     parser.add_argument("--main-rate", type=int, default=200, help="Mainline demand in veh/h (default: 200).")
     parser.add_argument("--side-rate", type=int, default=820, help="Ramp demand in veh/h (default: 820).")
@@ -102,28 +102,34 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--fps", type=int, default=10, help="Output frames per second (default: 10).")
     parser.add_argument("--format", choices=SUPPORTED_FORMATS, default="mp4", help="Output format (default: mp4).")
     parser.add_argument("--output", type=Path, default=None, help="Output .mp4 or .gif path.")
+    parser.add_argument("--fcd-input", type=Path, default=None, help="Existing SUMO FCD XML to render; skips simulation execution.")
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
     end_time_s = args.duration if args.end_time is None else args.end_time
-    if args.start_time < 0 or end_time_s < args.start_time or end_time_s > args.duration:
-        raise SystemExit("--start-time and --end-time must define a range within --duration.")
+    if args.start_time < 0 or end_time_s < args.start_time:
+        raise SystemExit("--start-time must be non-negative and no later than --end-time.")
+    if args.fcd_input is None and end_time_s > args.duration:
+        raise SystemExit("--start-time and --end-time must define a range within --duration when running a simulation.")
     if args.frame_step < 1:
         raise SystemExit("--frame-step must be at least 1.")
     if args.fps < 1:
         raise SystemExit("--fps must be at least 1.")
     network = NETWORK_CONFIGS[args.network]
-    case_name = f"{network.name}_main_{args.main_rate}_side_{args.side_rate}_seed_{args.seed}"
+    case_name = args.fcd_input.stem.removesuffix(".fcd") if args.fcd_input else f"{network.name}_main_{args.main_rate}_side_{args.side_rate}_seed_{args.seed}"
     output_dir = GENERATED_OUTPUT_DIR / "visualization" / network.name
-    fcd_path = output_dir / f"{case_name}.fcd.xml"
+    fcd_path = args.fcd_input or output_dir / f"{case_name}.fcd.xml"
     output_path = args.output or default_output_path(output_dir, case_name, args.format)
     try:
         validate_output_path(output_path, args.format)
     except ValueError as error:
         raise SystemExit(str(error)) from error
-    run_single_case(main_veh_h=args.main_rate, side_veh_h=args.side_rate, duration=args.duration, seed=args.seed, fcd_output_path=fcd_path, network=network)
+    if args.fcd_input is None:
+        run_single_case(main_veh_h=args.main_rate, side_veh_h=args.side_rate, duration=args.duration, seed=args.seed, fcd_output_path=fcd_path, network=network)
+    elif not fcd_path.is_file():
+        raise SystemExit(f"FCD input does not exist: {fcd_path}")
     frames = select_timesteps(read_fcd_timesteps(fcd_path), args.start_time, end_time_s, args.frame_step)
     save_animation(network, frames, output_path, args.format, args.fps)
     print(f"FCD output: {fcd_path}")

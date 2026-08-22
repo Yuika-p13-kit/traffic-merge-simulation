@@ -114,6 +114,22 @@ PYTHONPATH=src uv run python -m traffic_merge_sim.animate \
 
 GIFを作成するには `--format gif` を指定します。FCDの全時刻を使う代わりに間引く場合は `--frame-step 2` のように指定できます。既定では出力を `sumo/output/generated/visualization/<network>/` に保存します。`--output results/merge.gif --format gif` のように明示的な保存先も指定できます。
 
+既存のシミュレーション結果を再実行せずに可視化するには、実行時にSUMOのFCD軌跡を保存し、`--fcd-input` を指定します。例えばv3 Step 4では次のように、結果CSVとは別にGit管理外の軌跡を保存できます。
+
+```bash
+uv run python experiments/highway_merge_v3/step04_cooperative_merge/run.py \
+  --total-rates 3950 --demand-ratios 1:1 --strategies uncontrolled,cooperative_limited \
+  --seeds 1 --fcd-output-dir sumo/output/generated/trajectories/v3-step04
+
+PYTHONPATH=src uv run python -m traffic_merge_sim.animate \
+  --network highway_merge_v3 \
+  --fcd-input sumo/output/generated/trajectories/v3-step04/cooperative_limited_main_1975_ramp_1975_seed_1.fcd.xml \
+  --start-time 30 --end-time 120 --frame-step 2 --fps 10 --format gif \
+  --output sumo/output/generated/visualization/v3-step04-cooperative.gif
+```
+
+FCDとGIFは `sumo/output/generated/` 配下に置くためGit管理外です。各実験の実行器は、必要なときだけFCD出力先を受け取る設計にし、通常の一括評価で大きな軌跡ファイルを作らないようにします。
+
 ### 3. v3 Step 1: 無制御ベースライン
 
 ```bash

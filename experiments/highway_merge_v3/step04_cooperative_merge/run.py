@@ -77,17 +77,22 @@ def finish_metrics(tripinfo_path: Path, summary_path: Path, main_rate: int, ramp
     return metrics
 
 
-def run_limited_case(main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int) -> dict[str, object]:
+def run_limited_case(main_rate: int, ramp_rate: int, duration: float, clearance: float, seed: int, fcd_output_path: Path | None = None) -> dict[str, object]:
     import traci
 
     output_dir = GENERATED_OUTPUT_DIR / HIGHWAY_MERGE_V3.name
     output_dir.mkdir(parents=True, exist_ok=True)
     prefix = f"v3_cooperative_main_{main_rate}_ramp_{ramp_rate}_seed_{seed}"
     route_path, tripinfo_path, summary_path = (output_dir / f"{prefix}{suffix}" for suffix in (".rou.xml", ".tripinfo.xml", ".summary.xml"))
-    for path in (route_path, tripinfo_path, summary_path):
+    for path in (route_path, tripinfo_path, summary_path, fcd_output_path):
+        if path is None:
+            continue
         path.unlink(missing_ok=True)
     build_case_route_file(route_path, main_rate, ramp_rate, duration, network=HIGHWAY_MERGE_V3)
     command = [locate_sumo_binary(), "-n", str(HIGHWAY_MERGE_V3.network_path), "-r", str(route_path), "--no-step-log", "--quit-on-end", "--tripinfo-output", str(tripinfo_path), "--summary-output", str(summary_path), "--xml-validation", "never", "--time-to-teleport", "-1", "--end", str(duration + clearance), "--seed", str(seed)]
+    if fcd_output_path is not None:
+        fcd_output_path.parent.mkdir(parents=True, exist_ok=True)
+        command.extend(["--fcd-output", str(fcd_output_path)])
     controller = LimitedCooperativeController(SETTINGS)
     yielded: set[str] = set()
     traci.start(command)
@@ -130,7 +135,7 @@ def summarize(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     return output
 
 
-def run(total_rates: list[int], ratios: list[str], strategies: list[str], seeds: list[int], *, duration_s: float, clearance_time_s: float, output_dir: Path | None = None) -> Path:
+def run(total_rates: list[int], ratios: list[str], strategies: list[str], seeds: list[int], *, duration_s: float, clearance_time_s: float, output_dir: Path | None = None, fcd_output_dir: Path | None = None) -> Path:
     if set(strategies) - {"uncontrolled", "cooperative_limited"}:
         raise ValueError("strategies must be uncontrolled and/or cooperative_limited")
     rows: list[dict[str, object]] = []
@@ -139,7 +144,8 @@ def run(total_rates: list[int], ratios: list[str], strategies: list[str], seeds:
             main_rate, ramp_rate = allocate_demand(total_rate, ratio)
             for strategy in strategies:
                 for seed in seeds:
-                    row = run_highway_v3_single_case(main_rate, ramp_rate, duration=duration_s, clearance_time=clearance_time_s, seed=seed) if strategy == "uncontrolled" else run_limited_case(main_rate, ramp_rate, duration_s, clearance_time_s, seed)
+                    fcd_path = fcd_output_dir / f"{strategy}_main_{main_rate}_ramp_{ramp_rate}_seed_{seed}.fcd.xml" if fcd_output_dir else None
+                    row = run_highway_v3_single_case(main_rate, ramp_rate, duration=duration_s, clearance_time=clearance_time_s, seed=seed, fcd_output_path=fcd_path) if strategy == "uncontrolled" else run_limited_case(main_rate, ramp_rate, duration_s, clearance_time_s, seed, fcd_output_path=fcd_path)
                     row.update(strategy=strategy, total_demand_veh_h=total_rate, demand_ratio=ratio)
                     if strategy == "uncontrolled": row.update({field: 0 for field in CONTROL_FIELDS})
                     rows.append(row)
@@ -159,5 +165,6 @@ if __name__ == "__main__":
     parser.add_argument("--duration", type=float, default=DEFAULT_DURATION_S)
     parser.add_argument("--clearance-time", type=float, default=DEFAULT_CLEARANCE_TIME_S)
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--fcd-output-dir", type=Path, help="Save per-case FCD trajectories for post-processing animations.")
     args = parser.parse_args()
-    print(run(parse_ints(args.total_rates), parse_csv(args.demand_ratios), parse_csv(args.strategies), parse_ints(args.seeds), duration_s=args.duration, clearance_time_s=args.clearance_time, output_dir=args.output_dir))
+    print(run(parse_ints(args.total_rates), parse_csv(args.demand_ratios), parse_csv(args.strategies), parse_ints(args.seeds), duration_s=args.duration, clearance_time_s=args.clearance_time, output_dir=args.output_dir, fcd_output_dir=args.fcd_output_dir))
