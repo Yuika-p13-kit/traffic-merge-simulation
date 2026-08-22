@@ -1,0 +1,2 @@
+strategy,total_demand_veh_h,demand_ratio,main_veh_h,ramp_veh_h,runs,recovered_runs,breakdown_runs,mean_unfinished_vehicles,mean_throughput_veh_h,mean_peak_queue_vehicles,mean_avg_wait_time_s,collision_runs,teleport_runs,mean_interventions,mean_successful_releases,mean_timed_out_interventions
+cooperative_limited,3950,1:2,1317,2633,5,0,5,257.6,3436.8,491.6,0.0023278412821855676,0,0,0.0,0.0,0.0
