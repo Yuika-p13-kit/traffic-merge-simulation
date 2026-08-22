@@ -21,6 +21,7 @@ class CooperativeSettings:
     main_control_distance_m: float
     min_conflict_eta_s: float
     max_conflict_eta_s: float
+    max_pair_eta_gap_s: float
     cooperative_speed_m_s: float
     max_intervention_s: float
     cooldown_s: float
@@ -49,18 +50,22 @@ class LimitedCooperativeController:
         ]
         if not waiting_ramp:
             return None
-        candidates: list[tuple[float, VehicleState]] = []
+        candidates: list[tuple[float, VehicleState, VehicleState]] = []
         for vehicle in main_vehicles:
             if not self.settings.main_min_distance_m <= vehicle.distance_to_merge_end_m <= self.settings.main_control_distance_m:
                 continue
             eta_s = vehicle.distance_to_merge_end_m / max(vehicle.speed_m_s, 0.1)
             if self.settings.min_conflict_eta_s <= eta_s <= self.settings.max_conflict_eta_s:
-                candidates.append((eta_s, vehicle))
+                for ramp in waiting_ramp:
+                    ramp_eta_s = ramp.distance_to_merge_end_m / max(ramp.speed_m_s, 0.1)
+                    eta_gap_s = abs(eta_s - ramp_eta_s)
+                    if eta_gap_s <= self.settings.max_pair_eta_gap_s:
+                        candidates.append((eta_gap_s, vehicle, ramp))
         if not candidates:
             return None
-        selected = min(candidates, key=lambda item: item[0])[1]
+        _, selected, target_ramp = min(candidates, key=lambda item: item[0])
         self.active_main_vehicle = selected.vehicle_id
-        self.target_ramp_vehicle = min(waiting_ramp, key=lambda vehicle: vehicle.distance_to_merge_end_m).vehicle_id
+        self.target_ramp_vehicle = target_ramp.vehicle_id
         self.intervention_started_s = now_s
         self.interventions += 1
         return selected.vehicle_id
